@@ -1,0 +1,31 @@
+<div class="container-fluid" *ngIf="!authenticated">
+    <div class="row mt-5 justify-content-center">
+        <div class="col-md-3 col-xs-12 text-md-end text-start">
+            <p class="pe-5">Sign in to your account:</p>
+        </div>
+        <div class="col-md-3 col-xs-12">
+            <form [formGroup]="loginForm" (submit)="onLogin()">
+                <fieldset class="form-group">
+                    <label for="username">Username: </label><br>
+                    <input class="rounded" type="text" id="username" formControlName="username"><br>
+                    <div class="form-invalid" *ngIf="formInvalid && loginForm.get('username')?.hasError('required')">Username is required.</div>
+                </fieldset>
+                <fieldset class="form-group mt-2">
+                    <label for="password">Password: </label><br>
+                    <input class="rounded" type="password" id="password" formControlName="password"><br>
+                    <div class="form-invalid" *ngIf="formInvalid && loginForm.get('password')?.hasError('required')">Password is required.</div>
+                </fieldset>
+                <button class="btn btn-sm btn-login mt-2" type="submit">Sign in</button>
+                <div class="form-message my-2" *ngIf="message">{{message}}</div>
+            </form>
+        </div>
+        <div class="row mt-5 justify-content-center p-0">
+            <div class="col-md-3 col-xs-12 text-md-end text-start">
+                <p class="pe-5">Need to create an account?</p>
+            </div>
+            <div class="col-md-3 col-xs-12">
+                <button class="btn btn-sm btn-register" type="button" [routerLink]="['../register']">Register</button>
+            </div>
+        </div>
+    </div>
+</div>

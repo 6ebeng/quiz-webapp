@@ -1,0 +1,134 @@
+
+.nav-item a {
+    padding: 1px 8px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.quiz {
+    cursor: pointer;
+}
+
+.quiz-header-title {
+    font-family: 'Indie Flower', cursive;
+    font-size: 1.6em;
+}
+
+.quiz-bg  {
+    min-height: 300px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-size: cover;
+}
+
+.quiz-title  {
+    border-radius: 10px;
+}
+
+.quiz-category  {
+    background-color: silver;
+    border-radius: 5px;
+}
+
+.quiz-details  {
+
+    border-radius: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+    text-overflow: ellipsis;
+}
+
+.quiz-details-description  {
+    margin: 0;
+    color: rgb(250, 250, 250)
+}
+
+
+.quiz-details-popup {
+    background-color: rgba(35, 105, 105, 0.6);
+}
+
+
+.quiz-kweez {
+    font-family: 'Seymour One', sans-serif;
+    font-size: 2em;
+    transform: rotate(-5deg);
+}
+
+.quiz-details-link {
+    cursor: pointer;
+}
+
+.quiz-footer  {
+    background-color: silver;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+p span {
+    color: dimgray;
+}
+
+label {
+    color: darkgrey;
+}
+
+input[type="text"] {
+    text-indent: 5px;
+    width: 150px;
+    border: 1px solid silver;
+    border-radius: 5px;
+    background-color: AntiqueWhite;
+}
+
+.overlay {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px 10px 5px 5px;
+}
+
+.overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px 10px 5px 5px;
+  }
+  
+.login-text {
+    position: absolute;
+    width: 50%;
+    top: 50%;
+    left: 50%;
+    color: white; 
+    border-radius: 5px;
+    background-color: rgb(55, 55, 55);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+#text p {
+    margin: 0;
+    padding: 5px 0;
+    text-align: center;
+    font-size: 1em;
+}
+
+@media (max-width: 1024px) { 
+
+    .quiz-details  {
+        -webkit-line-clamp: 3;
+
+    }
+}
+

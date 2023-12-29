@@ -1,0 +1,49 @@
+.profile-details {
+    margin-left: 5px;
+    border: 1px solid transparent;
+    color: rgb(150, 150, 150);
+}
+
+label {
+    max-width: 100px;
+}
+
+input[type='text'], input[type='email'] {
+    width: 180px;
+    height: min-content;
+    margin: 0;
+    padding: 0 0 0 5px;
+}
+
+button {
+    border: 1px solid silver;
+    background-color: whitesmoke;
+}
+
+button:hover {
+    background-color: rgb(220, 220, 220);
+}
+
+.form-invalid {
+    color: rgb(235, 0, 0);
+}
+
+ul {
+    list-style-type: none;
+    padding: 0; 
+    margin: 0; 
+}
+
+@media (max-width: 1024px) {
+
+    .profile-details {
+        padding-left: 10px;
+
+    }
+
+    input[type='text'], input[type='email'] {
+
+        padding-left: 10;
+    }
+    
+}
