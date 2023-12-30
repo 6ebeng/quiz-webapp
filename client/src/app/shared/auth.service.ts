@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../users/user.model';
-import { BehaviorSubject, Observable, Subject, catchError, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Subject, catchError, of, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { DataService } from './data.service';
 
@@ -24,7 +24,7 @@ export class AuthService {
           if (user) {
             // this.user = {...user, password: '***'};
             this.user = user;
-            this.userSubject.next(this.user);
+            this.userSubject.next({...this.user});
 
             sessionStorage.setItem('user', JSON.stringify(this.user));
             this.authStatus.next(true);
@@ -46,7 +46,7 @@ export class AuthService {
   }
 
   registerUser(user: User) {
-    this.dataService.isRegistered(user.username).pipe(
+    this.dataService.isRegisteredUsername(user.username).pipe(
       switchMap((registered) => {
         if (!registered) {
           return this.dataService.addUser(user);
@@ -67,8 +67,10 @@ export class AuthService {
           this.authStatus.next(true);
           this.router.navigate(['/']);
         }
-      }
-    });
+      },
+      error: (error) => {
+        console.log(error);
+      }});
   }
 
   editUser(user: User) {
@@ -76,7 +78,7 @@ export class AuthService {
     this.dataService.editUser(user).subscribe({
       next: (res) => {
         this.user = user;
-        this.userSubject.next(this.user);
+        this.userSubject.next({...this.user});
       },
       error: (error) => {
         console.log(error);
@@ -99,7 +101,7 @@ export class AuthService {
 
     if (user && !this.user) {
       this.user = JSON.parse(user);
-      this.userSubject.next(this.user as User);
+      this.userSubject.next({...this.user as User});
     }
   }
 }

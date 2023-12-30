@@ -1,0 +1,32 @@
+.question-text {
+    font-size: 1em;
+}
+
+button.btn-confirm {
+    background-color: rgb(150, 220, 220);
+}
+
+button.btn-confirm:hover {
+    background-color: rgb(115, 185, 185);
+}
+
+
+button.btn-quit {
+    background-color: rgb(211, 210, 210);
+}
+
+button.btn-quit:hover {
+    background-color: rgb(170, 170, 170);
+}
+
+input[type="radio"] {
+    border: 2px solid lightgray;
+
+  }
+
+input[type="radio"]:checked {
+    color: silver;
+    background-color: silver;
+    border: 1px solid grey;
+
+  }

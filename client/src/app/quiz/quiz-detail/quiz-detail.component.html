@@ -1,10 +1,16 @@
-<!-- <div *ngIf="authenticated" class="container-fluid"> -->
 <div class="container-fluid">
-    <div class="row">
-        <h1>{{quiz?.title}}</h1>
+    <div class="row justify-content-center mt-3">
+        <div class="col-6 col-md-4 offset-1 offset-md-3 text-center">
+            <h1 class="quiz-title">{{quiz.title}}</h1>
+        </div>
+        <div class="col-4 col-md-3">
+            <div class="info-display ms-md-4" [ngStyle]="{'visibility': !quizCompleted ? 'visible' : 'hidden'}">
+                <p>{{ quiz.timelimit ? 'Time Left: ' + formatTime(timeLeft) : 'No time limit' }}</p>
+                <p>Question {{questionIndex + 1}}/ {{quizQuestions.length}}</p>
+            </div>
+        </div>
     </div>
-    <div class="row">
-
+    <div class="row justify-content-center my-3">
+        <app-quiz-question class="col-10 col-md-4" *ngIf="quizQuestions && (!quiz.timelimit || (quiz.timelimit && timeLeft > 0))" [questionIndex]="questionIndex" [question]="quizQuestions[questionIndex]" [quizId]="quiz.id" [userId]="user.id" [questionsLength]="quizQuestions.length" [quizCompleted]="quizCompleted" (nextQuestionEvent)="onNextQuestion($event)" (quitEvent)="onQuitEvent($event)"></app-quiz-question>
     </div>
 </div>
-

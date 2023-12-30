@@ -3,7 +3,7 @@
         <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav col-md-6 mt-1 ms-5">
                 <li class="nav-item ms-2" *ngFor="let category of quizCategories">
-                    <a class="nav-link" [ngStyle]="{'border-color': category.color, 'background-color': category.selected || category.color == hoverColor  ? category.color : ''}" (mouseover)="setHoverStyle(category)" (mouseout)="resetStyle(category)" (click)="setFilterValues(category)">{{category.name}} </a>
+                    <a class="nav-link" [ngStyle]="{'border-color': category.color, 'background-color': category.selected || category.color == hoverColor ? category.color : ''}" (mouseover)="setHoverStyle(category)" (mouseout)="resetStyle(category)" (click)="setFilterValues(category)">{{category.name}} </a>
                 </li>
                 <li class="nav-item ms-5">
                     <label class="me-2" for="search">Search quizzes:</label>
@@ -26,10 +26,10 @@
                 <div class="ms-auto login-text" id="text" *ngIf="quiz.showOverlay">
                     <p>Sign in to take a quiz</p>
                 </div>
-                <section class="quiz-bg d-flex flex-column justify-content-start" [ngStyle]="{'background-image': 'url(' + getCategoryImage(quiz.categoryId) + ')'}">
+                <section class="quiz-bg d-flex flex-column justify-content-start" [ngStyle]="{'background-image': 'url(' + (getCategoryImage(quiz.categoryId) | async) + ')'}">
                     <header class="quiz-header">
                         <div class="d-flex justify-content-end mt-2 me-2">
-                            <p [ngStyle]="{'background-color': getCategoryColor(quiz.categoryId)}" class="quiz-category col-md-3 text-center">{{quiz.categoryName}}</p>
+                            <p [ngStyle]="{'background-color': getCategoryColor(quiz.categoryId) | async}" class="quiz-category col-md-3 text-center">{{quiz.categoryName}}</p>
                         </div>
                         <div class="d-flex justify-content-start ms-2">
                            <h2 class="quiz-title col-md-10">{{quiz.title}}</h2>

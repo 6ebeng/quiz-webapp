@@ -13,7 +13,6 @@ button.btn-register {
 button.btn-register:hover {
     border-color: steelblue;
     background-color: rgb(206, 224, 230);
-
 }
 
 .form-invalid, .form-message {

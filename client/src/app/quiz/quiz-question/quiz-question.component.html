@@ -1,0 +1,36 @@
+<div class="card">
+    <div class="card-header">
+      <p class="card-title question-text text-center">{{!quizCompleted ? question?.text : 'Quiz Results'}}</p>
+    </div>
+    <div class="card-body text-center">
+      <form *ngIf="!quizCompleted; else completed">
+        <div class="form-check" *ngFor="let option of question?.options; let i = index;">
+          <input class="form-check-input" type="radio" [name]="'option'" [id]="'option' + i" [value]="option" (change)="onAnswerChange(option)">
+          <label class="form-check-label" [for]="'option' + i">{{option}}</label>
+        </div>
+        <div class="mt-4">
+          <button type="button" class="btn btn-sm btn-confirm me-2" (click)="onConfirmed()">Confirm</button>
+          <button type="button" class="btn btn-sm btn-quit" (click)="onQuit()">Quit</button>
+        </div>
+      </form>
+        <ng-template #completed>
+            <div class="row text-center">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <p>Total questions: </p>  
+                    </div> 
+                    <div class="col-6">
+                        <p>{{questionsLength}}</p>  
+                    </div>
+                </div>
+                <div class="col-6">
+                    <p>Score: </p>  
+                </div> 
+                <div class="col-6">
+                    <p>{{quizStats.score}}/ {{questionsLength}}</p>  
+                </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-confirm" [routerLink]="['../']">Ok</button> 
+        </ng-template>
+    </div>
+</div>

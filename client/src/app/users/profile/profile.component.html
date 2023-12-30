@@ -1,51 +1,51 @@
 <div class="container-fluid">
     <div class="row mt-5 justify-content-center">
-        <div class="col-md-3 col-xs-12 text-md-end text-start">
+        <div class="col-md-3 col-xs-12 text-md-end text-center">
             <p class="pe-5"><img src="../../../assets/avatar.png" alt="avatar" class="img-thumbnail"></p>
         </div>
         <div class="col-md-3 col-xs-12">
             <form [formGroup]="profileForm">
-                <div class="form-group row mb-2">
-                    <label class="col-md-6">Username:</label>
-                    <span class="profile-details col-md-6" *ngIf="!edit; else username">{{user.username}}</span>
+                <div class="form-group row mb-2 justify-content-end justify-content-md-start">
+                    <label class="col-6">Username:</label>
+                    <span class="profile-details col-6" *ngIf="!edit; else username">{{user.username}}</span>
                     <ng-template #username>
-                        <div class="col-md-6">
+                        <div class="col-6">
                             <input class="form-control rounded" type="text" formControlName="username">
                         </div>
                     </ng-template>
                 </div>
-                <div class="form-group row mb-2">
-                    <label class="col-md-6">Name:</label>
-                    <span class="profile-details col-md-6" *ngIf="!edit; else name">{{user.name}}</span>
+                <div class="form-group row mb-2 justify-content-end justify-content-md-start">
+                    <label class="col-6">Name:</label>
+                    <span class="profile-details col-6" *ngIf="!edit; else name">{{user.name}}</span>
                     <ng-template #name>
-                        <div class="col-md-6">
+                        <div class="col-6">
                             <input class="form-control rounded" type="text" formControlName="name">
                         </div>
                     </ng-template>
                 </div>
-                <div class="form-group row mb-2">
-                    <label class="col-md-6">Surname:</label>
-                    <span class="profile-details col-md-6" *ngIf="!edit; else surname">{{user.surname}}</span>
+                <div class="form-group row mb-2 justify-content-end justify-content-md-start">
+                    <label class="col-6">Surname:</label>
+                    <span class="profile-details col-6" *ngIf="!edit; else surname">{{user.surname}}</span>
                     <ng-template #surname>
-                        <div class="col-md-6">
+                        <div class="col-6">
                             <input class="form-control rounded" type="text" formControlName="surname">
                         </div>
                     </ng-template>
                 </div>
-                <div class="form-group row mb-2">
-                    <label class="col-md-6">Age:</label>
-                    <span class="profile-details col-md-6" *ngIf="!edit; else age">{{user.age}}</span>
+                <div class="form-group row mb-2 justify-content-end justify-content-md-start">
+                    <label class="col-6">Age:</label>
+                    <span class="profile-details col-6" *ngIf="!edit; else age">{{user.age}}</span>
                     <ng-template #age>
-                        <div class="col-md-6">
+                        <div class="col-6">
                             <input class="form-control rounded" type="text" formControlName="age">
                         </div>
                     </ng-template>
                 </div>
-                <div class="form-group row mb-2">
-                    <label class="col-md-6">E-mail:</label>
-                    <span class="profile-details col-md-6" *ngIf="!edit; else email">{{user.email}}</span>
+                <div class="form-group row mb-2 justify-content-end justify-content-md-start">
+                    <label class="col-6">E-mail:</label>
+                    <span class="profile-details col-6" *ngIf="!edit; else email">{{user.email}}</span>
                     <ng-template #email>
-                        <div class="col-md-6">
+                        <div class="col-6">
                             <input class="form-control rounded" type="email" formControlName="email">
                             <ul *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.dirty">
                                 <li class="form-invalid" *ngFor="let msg of getErrorMessages(profileForm.get('email')!)">- {{msg}}</li>
@@ -53,9 +53,9 @@
                         </div>
                     </ng-template>
                 </div>
-                <div class="form-group row">
-                    <label class="col-md-6"></label>
-                    <div class="col-md-6" [ngClass]="edit ? 'btn-group' :''">
+                <div class="form-group row justify-content-end justify-content-md-start">
+                    <label class="col-6"></label>
+                    <div class="col-6">
                         <button class="btn btn-sm mt-2 me-2" (click)="onEdit()" [disabled]="edit && !profileForm.valid">{{!edit ? 'Edit profile' : 'Save'}}</button>
                         <button class="btn btn-sm mt-2" (click)="edit=!edit" *ngIf="edit">Cancel</button>
                     </div>

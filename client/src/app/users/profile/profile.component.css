@@ -37,13 +37,11 @@ ul {
 @media (max-width: 1024px) {
 
     .profile-details {
-        padding-left: 10px;
-
+        margin: 0;
     }
 
     input[type='text'], input[type='email'] {
-
-        padding-left: 10;
+        padding: 0;
     }
     
 }

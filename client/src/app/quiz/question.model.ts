@@ -1,10 +1,10 @@
 export class Question {
 
     id : string = '';
-    questionText: string = '';
-    possibleAnswer : string[] = [];
-    correctAnswer : string[] = [];
-    lastChanged: Date = new Date();
+    text: string = '';
+    options : string[] = [];
+    answer : string = '';
+    timestamp: Date = new Date();
     quizId: string = '';
 }
   
