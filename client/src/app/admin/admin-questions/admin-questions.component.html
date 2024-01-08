@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <h1>Questions</h1>
+    <table class="table table-responsive table-bordered mt-3">
+        <thead>
+            <tr class="text-center">
+                <th>Id</th>
+                <th>Text</th>
+                <th>Last modified</th>
+                <th>Assigned</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let question of questions; let i = index">
+            <td class="text-center">{{i+1}}</td>
+            <td>{{question.text}}</td>
+            <td class="text-center">{{question.timestamp | date: 'd.M.yyyy. HH:mm'}}</td>
+            <td class="text-center">{{question.quizId ? 'yes' : 'no'}}</td>
+            <td class="text-center"><button class="btn btn-edit" (click)="editQuestion(question)"><i class="fas fa-pencil"></i></button></td>
+            <td class="text-center"><button class="btn btn-delete" (click)="deleteQuestion(question.id)"><i class="fas fa-trash"></i></button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button *ngIf="mode !== 'edit' && mode !== 'add'" class="btn btn-add" (click)="addQuestion()"><i class="fas fa-plus"></i> Add</button>
+    <div *ngIf="mode === 'edit' || mode === 'add'" class="mt-2">
+        <form [formGroup]="questionForm">
+            <fieldset class="form-group">
+                <label>Question:</label>
+                <input class="form-control" type="text" formControlName="text"/>
+            </fieldset>
+            <fieldset class="form-group" formArrayName="options" *ngFor="let option of optionsArray.controls; let i = index">
+                <label>Opt {{i+1}}:</label>
+                <input class="form-control" type="text" [formControlName]="i"/>
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Answer:</label>
+                <select class="form-select" formControlName="answer">
+                  <option *ngFor="let optionControl of optionsArray.controls" [value]="optionControl.value">
+                    {{ optionControl.value }}
+                  </option>
+                </select>
+              </fieldset>
+            <div>
+                <button class="btn btn-sel mt-2 me-2" type="button" (click)="onSubmit()">{{mode === 'add' ? 'Add' : 'Save'}}</button>
+                <button class="btn btn-sel btn-can mt-2" type="button" (click)="onCancel()">Cancel</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

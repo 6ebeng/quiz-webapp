@@ -1,0 +1,22 @@
+.dashboard {
+    font-size: 1em;
+    font-weight: bold;
+    color: rgb(173, 201, 211);
+}
+
+.separator {
+    border-left: 1px solid #ddd;
+}
+
+
+a.nav-link {
+    padding: 5px 10px;
+    color: grey;
+    display: inline-block;
+}
+
+a.nav-link:hover {
+    border-radius: 5px;
+    background-color: rgba(200, 200, 200, 0.2);
+}
+
