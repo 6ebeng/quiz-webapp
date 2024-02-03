@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { Question } from '../question.model';
 import { User } from 'src/app/users/user.model';
 import { AuthService } from 'src/app/shared/auth.service';
-import { UserQuiz } from '../user-quiz.model';
+import { QuizResults } from '../quiz-results.model';
 
 @Component({
   selector: 'app-quiz-detail',
@@ -20,7 +20,6 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
   quiz: Quiz = new Quiz();
   quizSubscription: Subscription | null = null;
 
-  questionIndex : number = 0;
   quizQuestions : Question[] = [];
   questionsSubscription: Subscription | null = null;
 
@@ -29,9 +28,13 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
   userSubscription : Subscription | null = null;
 
   timeLeft: number = 0; 
+  finalTime: number = 0;
   timer: any;
+
+  questionIndex : number = 0;
+  question : Question = new Question();
+  quizResults: QuizResults = new QuizResults();
   quizCompleted : boolean = false;
-  quizStats: UserQuiz = new UserQuiz();
 
   constructor(private activatedRoute: ActivatedRoute, private quizService: QuizService, private authService: AuthService) {}
 
@@ -41,36 +44,20 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
       this.id = data['quizid'];
     });
 
-    // this.quizService.getQuiz(this.id)
-    //   .subscribe(
-    //     quiz => { this.quiz = quiz;
-
-    //     const storedTimeLeft = sessionStorage.getItem('timeLeft');
-       
-    //     if (storedTimeLeft) {
-    //       this.timeLeft = parseInt(storedTimeLeft);
-    //     }
-    //     else {
-    //       this.timeLeft = this.quiz?.timelimit! * 60
-    //     }
-            
-    //     this.startTimer();
-    // });
-
   
     this.quizSubscription = this.quizService.getQuiz(this.id).subscribe({
       next: (quiz) => {
 
         if (quiz) {
           this.quiz = quiz;
+          this.timeLeft = this.quiz.timelimit * 60;
+          this.quizResults.quizId = this.quiz.id;
         }
         const timeLeftStorage = sessionStorage.getItem('timeLeft');
     
         if (timeLeftStorage) {
           this.timeLeft = parseInt(timeLeftStorage);
-        } else if (this.quiz) {
-            this.timeLeft = this.quiz.timelimit * 60;
-        }
+        } 
     
       },
       error: (error) => {
@@ -82,10 +69,12 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
   
           if (questions) {
             this.quizQuestions = questions;
+            this.quizResults.totalQuestions = this.quizQuestions.length;
           }
-          console.log(this.quizQuestions);
-            
-          this.startTimer();
+          // console.log(this.quizQuestions);
+          if (this.timeLeft)  { 
+            this.startTimer();
+          }
         },
         error: (error) => {
           console.log(error);
@@ -95,19 +84,9 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
       this.userSubject = this.authService.getUser();
       this.userSubscription = this.userSubject.subscribe(user => {
         this.user = user;
+        this.quizResults.userId = this.user.id;
       });
 
-    // this.questionsSubscription = this.quizService.getQuizQuestions(this.id).subscribe({
-    //   next: (questions) => {
-
-    //     this.quizQuestions = questions;
-    //     console.log(this.quizQuestions);
-          
-    //     this.startTimer();
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   }});
   
   }
 
@@ -119,8 +98,9 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('timeLeft', this.timeLeft.toString());
       } else {
         // this.quizCompleted = true;
-        sessionStorage.removeItem("timeLeft");
-        clearInterval(this.timer);
+        // sessionStorage.removeItem("timeLeft");
+        // clearInterval(this.timer);
+        this.quizCompletedActions();
       }
     }, 1000); 
   }
@@ -140,22 +120,39 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('timeLeft', this.timeLeft.toString());
   }
 
-  onNextQuestion(quizStats: UserQuiz){
+
+  onAnswer(answer: string) {
+
+    this.question = this.quizQuestions[this.questionIndex];
+
+    if (answer === this.question?.answer)  {
+        this.quizResults.score++;
+    }
+
     if (this.questionIndex < this.quizQuestions.length - 1) {
       this.questionIndex++;
     }
     else {
-      this.quizCompleted = true;
-      this.quizStats = quizStats;
+      this.quizResults.questionsAnsered = this.quizResults.totalQuestions;
+
+      this.quizService.addQuizResults(this.quizResults);
+      this.quizCompletedActions();
     }
   }
 
-  onQuitEvent(quizStats: UserQuiz){
+  quizCompletedActions()  { 
+
     this.quizCompleted = true;
-    this.quizStats = quizStats;
-  
+
+    if (this.quiz.timelimit) {
+      this.finalTime = this.timeLeft;
+      this.timeLeft = 0;
+      sessionStorage.setItem('timeLeft', '0');
+      clearInterval(this.timer);
+    }
   }
-  
+
+
   ngOnDestroy() {
 
     if (this.quizSubscription) {

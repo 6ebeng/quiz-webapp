@@ -12,12 +12,11 @@ import { LeaderboardModule } from './leaderboard/leaderboard.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    WelcomePageComponent
+    WelcomePageComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,6 +27,7 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component';
     QuizModule,
     AdminModule,
     LeaderboardModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

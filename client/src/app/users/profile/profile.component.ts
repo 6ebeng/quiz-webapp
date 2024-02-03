@@ -38,14 +38,18 @@ export class ProfileComponent {
       this.user = user;
     });
 
-    this.profileForm = this.fb.group({
-      'username' : new FormControl({value: this.user.username, disabled: true}, null),
-      'name' : new FormControl(this.user.name, null),
-      'surname' : new FormControl(this.user.surname, null),
-      'age' : new FormControl(this.user.age, null),
-      'email': new FormControl(this.user.email, [Validators.required, Validators.email])
-    });
+    this.initForm();
  }
+
+ initForm(): void {
+  this.profileForm = this.fb.group({
+    'username' : new FormControl({value: this.user.username, disabled: true}, null),
+    'name' : new FormControl(this.user.name, null),
+    'surname' : new FormControl(this.user.surname, null),
+    'age' : new FormControl(this.user.age, null),
+    'email': new FormControl(this.user.email, [Validators.required, Validators.email])
+  });
+}
 
  getErrorMessages(control: AbstractControl, patterns?: string[]): string[] {
 
@@ -55,12 +59,18 @@ export class ProfileComponent {
  onEdit() {
  
   if (this.edit) {
-
     let user : User = {...this.profileForm.value, id: this.user.id, username: this.user.username, password: this.user.password, avatarURL: this.user.avatarURL};   
     this.authService.editUser(user); 
   }
   
   this.edit = !this.edit;
+ }
+
+ onCancel() {
+
+  this.edit = !this.edit;
+  this.initForm();
+  
  }
 
 

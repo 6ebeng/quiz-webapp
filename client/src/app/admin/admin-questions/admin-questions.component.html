@@ -13,40 +13,64 @@
         </thead>
         <tbody>
             <tr *ngFor="let question of questions; let i = index">
-            <td class="text-center">{{i+1}}</td>
-            <td>{{question.text}}</td>
-            <td class="text-center">{{question.timestamp | date: 'd.M.yyyy. HH:mm'}}</td>
-            <td class="text-center">{{question.quizId ? 'yes' : 'no'}}</td>
-            <td class="text-center"><button class="btn btn-edit" (click)="editQuestion(question)"><i class="fas fa-pencil"></i></button></td>
-            <td class="text-center"><button class="btn btn-delete" (click)="deleteQuestion(question.id)"><i class="fas fa-trash"></i></button></td>
+                <td class="text-center">{{i+1}}</td>
+                <td>{{question.text}}</td>
+                <td class="text-center">{{question.timestamp | date: 'd.M.yyyy. HH:mm'}}</td>
+                <td class="text-center">{{question.quizId ? 'yes' : 'no'}}</td>
+                <td class="text-center"><button class="btn btn-edit" (click)="editQuestion(question)"><i class="fas fa-pencil"></i></button></td>
+                <td class="text-center" [matTooltip]="(getQuestionTooltip(question.quizId) | async)!" matTooltipPosition="above">
+                    <button class="btn btn-delete" [disabled]="question.quizId" (click)="deleteQuestion(question.id)">
+                    <i class="fas fa-trash"></i>
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>
     <button *ngIf="mode !== 'edit' && mode !== 'add'" class="btn btn-add" (click)="addQuestion()"><i class="fas fa-plus"></i> Add</button>
-    <div *ngIf="mode === 'edit' || mode === 'add'" class="mt-2">
+    <div *ngIf="mode === 'edit' || mode === 'add'" class="mt-4">
         <form [formGroup]="questionForm">
-            <fieldset class="form-group">
+            <fieldset class="form-group mb-2">
                 <label>Question:</label>
-                <input class="form-control" type="text" formControlName="text"/>
+                <div class="d-flex">
+                    <div class="col-10">
+                        <input class="form-control" type="text" formControlName="text"/>
+                    </div>
+                    <div class="col-2 d-flex justify-content-start align-items-center">
+                        <button *ngIf="optionsArray.length < 5" class="btn btn-sel btn-can h-90 ms-2" type="button" (click)="addOption()">Add opt</button>
+                    </div>
+                </div>
             </fieldset>
-            <fieldset class="form-group" formArrayName="options" *ngFor="let option of optionsArray.controls; let i = index">
-                <label>Opt {{i+1}}:</label>
-                <input class="form-control" type="text" [formControlName]="i"/>
+            <fieldset class="form-group" [ngClass]="{ 'mb-2': i === optionsArray.controls.length - 1}" formArrayName="options" *ngFor="let option of optionsArray.controls; let i = index">
+                <label>Opt {{ i + 1 }}:</label>
+                <div class="d-flex">
+                    <div class="col-10">
+                        <input class="form-control" type="text" [formControlName]="i"/>
+                    </div>
+                    <div class="col-2 d-flex justify-content-start align-items-center">
+                        <button *ngIf="i > 2" class="btn btn-sel btn-can h-90 ms-2" type="button" (click)="removeOption(i)">X</button>
+                    </div>
+                </div>
             </fieldset>
             <fieldset class="form-group">
                 <label>Answer:</label>
-                <select class="form-select" formControlName="answer">
-                  <option *ngFor="let optionControl of optionsArray.controls" [value]="optionControl.value">
-                    {{ optionControl.value }}
-                  </option>
-                </select>
-              </fieldset>
+                <div class="d-flex">
+                    <div class="col-10">
+                        <select class="form-select" formControlName="answer">
+                            <option *ngFor="let optionControl of optionsArray.controls" [value]="optionControl.value">
+                            {{ optionControl.value }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                    </div>
+                </div>
+            </fieldset>  
             <div>
-                <button class="btn btn-sel mt-2 me-2" type="button" (click)="onSubmit()">{{mode === 'add' ? 'Add' : 'Save'}}</button>
-                <button class="btn btn-sel btn-can mt-2" type="button" (click)="onCancel()">Cancel</button>
+              <button class="btn btn-sel mt-2 me-2" type="button" (click)="onSubmit()">
+                {{ mode === 'add' ? 'Add' : 'Save' }}
+              </button>
+              <button class="btn btn-sel btn-can mt-2 " type="button" (click)="onCancel()">Cancel</button>
             </div>
-
-        </form>
-
+          </form>
     </div>
 </div>

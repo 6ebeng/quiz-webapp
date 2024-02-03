@@ -2,15 +2,17 @@
     <div class="row justify-content-center mt-3">
         <div class="col-6 col-md-4 offset-1 offset-md-3 text-center">
             <h1 class="quiz-title">{{quiz.title}}</h1>
+            <h1 *ngIf="!quizCompleted && !timeLeft && quiz.timelimit" class="expired mt-4">The time for this quiz has expired. Restart the quiz from the dashboard.</h1>
         </div>
         <div class="col-4 col-md-3">
-            <div class="info-display ms-md-4" [ngStyle]="{'visibility': !quizCompleted ? 'visible' : 'hidden'}">
-                <p>{{ quiz.timelimit ? 'Time Left: ' + formatTime(timeLeft) : 'No time limit' }}</p>
+            <div class="info-display ms-md-4" [ngStyle]="{'visibility': !quizCompleted && timeLeft ? 'visible' : 'hidden'}">
+                <p [ngStyle]="{'color': timeLeft < 10 ? 'red' : 'initial'}">{{ quiz.timelimit ? 'Time left: ' + formatTime(timeLeft) : 'No time limit' }}</p>
                 <p>Question {{questionIndex + 1}}/ {{quizQuestions.length}}</p>
             </div>
         </div>
     </div>
     <div class="row justify-content-center my-3">
-        <app-quiz-question class="col-10 col-md-4" *ngIf="quizQuestions && (!quiz.timelimit || (quiz.timelimit && timeLeft > 0))" [questionIndex]="questionIndex" [question]="quizQuestions[questionIndex]" [quizId]="quiz.id" [userId]="user.id" [questionsLength]="quizQuestions.length" [quizCompleted]="quizCompleted" (nextQuestionEvent)="onNextQuestion($event)" (quitEvent)="onQuitEvent($event)"></app-quiz-question>
+        <app-quiz-question *ngIf="!quizCompleted && (timeLeft || !quiz.timelimit)" class="col-10 col-md-6 col-xxl-4" [question]="quizQuestions[questionIndex]" (answerEvent)="onAnswer($event)"></app-quiz-question>
+        <app-quiz-results *ngIf="quizCompleted" class="col-10 col-md-6 col-xxl-4" [quizResults]="quizResults" [questionsLength]="quizQuestions.length" [finalTime]="finalTime" [timeLimit]="quiz.timelimit ? true : false"></app-quiz-results>
     </div>
 </div>

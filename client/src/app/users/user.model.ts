@@ -1,3 +1,5 @@
+import { UserRole } from "./user-role.model";
+
 export class User {
 
     id : string = '';
@@ -7,6 +9,7 @@ export class User {
     surname : string = '';
     age: number = 0;
     email : string = '';
+    role: UserRole = UserRole.User;
     avatarURL? : string = '';
 }
   

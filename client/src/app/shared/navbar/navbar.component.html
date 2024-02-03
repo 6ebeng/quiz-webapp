@@ -7,13 +7,13 @@
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-lg-auto me-lg-5 mt-2 mb-2">
                 <li class="nav-item ms-lg-2">
-                    <a class="nav-link std-link" [routerLink]="['quiz']"><i class="fas fa-question me-3"></i>Quizzes</a>
-                </li>
-                <li class="nav-item ms-lg-2">
-                    <a class="nav-link std-link" [routerLink]="['quiz']"><i class="fas fa-book me-3"></i>Categories</a>
+                    <a class="nav-link std-link" [routerLink]="['quiz']"><i class="fas fa-question fa-lg me-3"></i>Quizzes</a>
                 </li>
                 <li class="nav-item ms-lg-2">
                     <a class="nav-link std-link" [routerLink]="['leaderboard']"><i class="fas fa-trophy me-3"></i>Leaderboard</a>
+                </li>
+                <li *ngIf="authenticated && user.role === userRole.Admin" class="nav-item ms-lg-2">
+                    <a class="nav-link std-link" [routerLink]="['admin']"><i class="fas fa-keyboard me-3"></i>Admin</a>
                 </li>
             </ul>
             <ul class="navbar-nav mt-2 mb-2">

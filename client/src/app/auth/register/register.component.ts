@@ -8,12 +8,12 @@ import { ValidatorService } from 'src/app/shared/validator.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['../auth.css']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
 
-  authSubscription : Subscription | null = null;
-  authenticated : boolean = false;
+  // authSubscription : Subscription | null = null;
+  // private authenticated : boolean = false;
 
   registerForm!: FormGroup;
   message : string = '';
@@ -38,15 +38,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.message = msg;
     });
 
-    this.authSubscription = this.authService.authStatus.subscribe(authenticated => {
-      this.authenticated = authenticated;
-    });
+    // this.authSubscription = this.authService.authStatus.subscribe(authenticated => {
+    //   this.authenticated = authenticated;
+    // });
 
-    this.authenticated = this.authService.isAuthenticated();
+    // this.authenticated = this.authService.isAuthenticated();
 
-    if (this.authenticated) {
-      this.router.navigate(['/']);
-    }
+    // if (this.authenticated) {
+    //   this.router.navigate(['/']);
+    // }
   }
 
   getErrorMessages(control: AbstractControl, patterns?: string[]): string[] {
@@ -58,14 +58,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     const {repeatedPassword, ...user} = this.registerForm.value;
     this.authService.registerUser(user);
-
   }
 
   ngOnDestroy() {
 
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
-    }
+    // if (this.authSubscription) {
+    //   this.authSubscription.unsubscribe();
+    // }
 
   }
 

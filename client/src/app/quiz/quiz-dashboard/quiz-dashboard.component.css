@@ -1,4 +1,9 @@
 
+.page-header-title {
+    font-family: 'Indie Flower', cursive;
+    font-size: 1.6em;
+}
+
 .nav-item a {
     padding: 1px 8px;
     border-width: 1px;
@@ -7,34 +12,32 @@
     cursor: pointer;
 }
 
-
 .quiz {
     cursor: pointer;
 }
 
-.quiz-header-title {
-    font-family: 'Indie Flower', cursive;
-    font-size: 1.6em;
-}
-
-.quiz-bg  {
+.quiz-main  {
     min-height: 300px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     background-size: cover;
 }
 
-.quiz-title  {
+.quiz-main-header-title  {
     border-radius: 10px;
 }
 
-.quiz-category  {
+.quiz-main-header-questions  {
+    background-color: rgba(150, 150, 150, 0.3);
+    border-radius: 5px;
+}
+
+.quiz-main-header-category  {
     background-color: silver;
     border-radius: 5px;
 }
 
-.quiz-details  {
-
+.quiz-main-details  {
     border-radius: 5px;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -44,26 +47,22 @@
     text-overflow: ellipsis;
 }
 
-.quiz-details-description  {
+.quiz-main-details-description  {
     margin: 0;
     color: rgb(250, 250, 250)
 }
 
-
-.quiz-details-popup {
+.quiz-main-details-popup {
     background-color: rgba(35, 105, 105, 0.6);
 }
 
 
-.quiz-kweez {
+.quiz-main-details-title {
     font-family: 'Seymour One', sans-serif;
     font-size: 2em;
     transform: rotate(-5deg);
 }
 
-.quiz-details-link {
-    cursor: pointer;
-}
 
 .quiz-footer  {
     background-color: silver;
@@ -105,7 +104,7 @@ input[type="text"] {
     border-radius: 10px 10px 5px 5px;
   }
   
-.login-text {
+.quiz-overlay-login {
     position: absolute;
     width: 50%;
     top: 50%;
@@ -117,18 +116,39 @@ input[type="text"] {
     z-index: 2;
 }
 
-#text p {
+.quiz-overlay-login p {
     margin: 0;
     padding: 5px 0;
     text-align: center;
     font-size: 1em;
 }
 
-@media (max-width: 1024px) { 
+@media (max-width: 1200px) { 
 
     .quiz-details  {
         -webkit-line-clamp: 3;
 
     }
+
+    .quiz-main-details-title {
+        font-size: 1.6em;
+
+    }
+    
+}
+
+
+@media (max-width: 768px) { 
+
+    .quiz-details  {
+        -webkit-line-clamp: 3;
+
+    }
+
+    .quiz-main-details-title {
+        font-size: 2.2em;
+
+    }
+    
 }
 

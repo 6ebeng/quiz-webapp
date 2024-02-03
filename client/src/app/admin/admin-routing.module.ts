@@ -4,13 +4,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { AdminQuizzesComponent } from './admin-quizzes/admin-quizzes.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { AdminQuestionsComponent } from './admin-questions/admin-questions.component';
-
-// const routes: Routes = [
-//   {path: '', component: AdminDashboardComponent},
-//   {path: 'quizzes', component: AdminQuizzesComponent},
-//   {path: 'users', component: AdminUsersComponent}
-// ];
-
+import { AdminCategoriesComponent } from './admin-categories/admin-categories.component';
 
 const routes: Routes = [
   {
@@ -18,9 +12,8 @@ const routes: Routes = [
     children: [
       { path: 'quizzes', component: AdminQuizzesComponent },
       { path: 'questions', component: AdminQuestionsComponent },
-      { path: 'questions', component: AdminQuestionsComponent },
+      { path: 'categories', component: AdminCategoriesComponent },
       { path: 'users', component: AdminUsersComponent },
-
       { path: '**', redirectTo: '', pathMatch: 'full' }
     ],
   },

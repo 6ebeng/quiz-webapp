@@ -12,7 +12,6 @@
 .info-display p {
     margin-bottom: 0;
     padding: 0 10px 10px 10px;
-
 }
 
 .info-display p:first-child {
@@ -21,6 +20,12 @@
     border-top-right-radius: 5px;
     background-color: whitesmoke;
 
+}
+
+.expired {
+    font-size: 1.2em;
+    font-weight: normal;
+    color: grey;
 }
 
 

@@ -3,6 +3,7 @@ import { User } from '../users/user.model';
 import { BehaviorSubject, Subject, catchError, of, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { DataService } from './data.service';
+import { UserRole } from '../users/user-role.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,12 @@ export class AuthService {
 
             sessionStorage.setItem('user', JSON.stringify(this.user));
             this.authStatus.next(true);
-            this.router.navigate(['/']);
+            if (this.user.role === UserRole.User) {
+              this.router.navigate(['/']);
+            }
+            else if (this.user.role === UserRole.Admin) {
+              this.router.navigate(['/admin']);
+            }
           } else {
             this.msgEmitter.next('Invalid credentials');
           }
@@ -46,6 +52,7 @@ export class AuthService {
   }
 
   registerUser(user: User) {
+
     this.dataService.isRegisteredUsername(user.username).pipe(
       switchMap((registered) => {
         if (!registered) {
@@ -87,7 +94,7 @@ export class AuthService {
 
   isAuthenticated(){
     this.restoreUserFromStorage();
-    return this.user != null;
+     return this.user != null;
   }
 
   getUser() {

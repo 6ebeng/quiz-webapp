@@ -1,0 +1,15 @@
+button.btn-confirm {
+    background-color: rgb(150, 220, 220);
+}
+
+button.btn-confirm:hover {
+    background-color: rgb(115, 185, 185);
+}
+
+.row p {
+    margin-bottom: 0;
+}
+
+.result {
+    color: grey;
+}

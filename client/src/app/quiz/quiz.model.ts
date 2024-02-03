@@ -1,5 +1,3 @@
-import{ Question } from '../quiz/question.model';
-
 export class Quiz {
 
     id : string = '';
@@ -13,6 +11,5 @@ export class Quiz {
     color? : string = '';
     showDescription? : boolean = false;
     showOverlay? : boolean = false;
-
 }
   

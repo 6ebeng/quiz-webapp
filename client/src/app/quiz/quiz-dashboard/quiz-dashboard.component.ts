@@ -1,11 +1,11 @@
 import { Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import { BehaviorSubject, Observable, Subscription, catchError, map, of, startWith, } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
 import { Quiz } from '../quiz.model';
-import {NgForm} from '@angular/forms';
 import { User } from 'src/app/users/user.model';
 import { AuthService } from 'src/app/shared/auth.service';
 import { QuizService } from '../quiz.service';
 import { QuizCategory } from '../quiz-category.model';
+import { Question } from '../question.model';
 
 @Component({
   selector: 'app-quiz-dashboard',
@@ -15,42 +15,30 @@ import { QuizCategory } from '../quiz-category.model';
 })
 export class QuizDashboardComponent implements OnInit, OnDestroy {
 
-  // prebaciti u QuizService?
-
-  // colors : string[] = ['BurlyWood', 'LightBlue', 'Thistle', 'LightSteelBlue'];
-  // rndColors : string[] = ['DarkCyan', 'Moccasin', 'BurlyWood', 'LightCoral', 'Plum', 'LightGrey', 'CadetBlue', 'DarkSeaGreen'];
-  // images : string[] = ['bullseye-gradient.png', 'liquid-cheese.png', 'sun-tornado.png'];
-
-  // assignedCategories: Map<string, {color: string, image: string}> = new Map();
-  // assignedQuizzes: Map<string, string> = new Map();
-
   hoverColor : string = '';
   filterValues : string[] = [];
   query : string = '';
 
-  quizzes : Quiz[] = [];
-  quizCategories : QuizCategory[] = [];
-  // quizCategoryObservable: Observable<QuizCategory | null> = of(null);
-  // quizesInEditing : Quiz[] = [];
-  // newQuiz : Quiz = new Quiz();
-
-  user: User = new User();
   authenticated : boolean = false;
   description : boolean = false;
 
+  user: User = new User();
   userSubject : BehaviorSubject<User> | null = null;
   userSubscription : Subscription | null = null;
 
+  quizzes : Quiz[] = [];
   quizzesSubject : BehaviorSubject<Quiz[]> | null = null;
   quizzesSubscription : Subscription | null = null;
 
+  quizCategories : QuizCategory[] = [];
   quizCategoriesSubject : BehaviorSubject<QuizCategory[]> | null = null;
   quizCategoriesSubscription : Subscription | null = null;
 
+  quizQuestions : Question[] = [];
+  quizQuestionsSubject : BehaviorSubject<Question[]> | null = null;
+  quizQuestionsSubscription : Subscription | null = null;
+
   authSubscription : Subscription | null = null;
-
-
-  // add : boolean = false;
 
   constructor(private authService: AuthService, private quizService: QuizService) {}
 
@@ -70,106 +58,31 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
     this.quizzesSubject = this.quizService.getQuizzes();
     this.quizzesSubscription = this.quizzesSubject.subscribe(quizzes => {
       this.quizzes = quizzes;
-
-      // quizzes.forEach((quiz) => {
-      //   if (!this.assignedQuizzes.has(quiz.id)) {
-
-      //     const rndColor = this.rndColors[Math.floor(Math.random() * this.rndColors.length)];
-      //     quiz.color = rndColor;
-      //   }
-      // });
-
     });
 
     this.quizCategoriesSubject = this.quizService.getQuizCategories();
     this.quizCategoriesSubscription = this.quizCategoriesSubject.subscribe(quizCategories => {
       this.quizCategories = quizCategories; 
+    });
 
-      // quizCategories.forEach((category) => {
-      //   if (!this.assignedCategories.has(category.id)) {
-
-      //     const color = this.colors[this.assignedCategories.size % this.colors.length];
-      //     const image = this.images[this.assignedCategories.size % this.images.length];
-
-      //     this.assignedCategories.set(category.id, {color, image});
-      //     category.color = color;
-      //     category.image = image;
-      //   }
-      // });
-
-    })
-
-
-    // forkJoin({
-    //   quizzes: this.quizService.getQuizzes(),
-    //   categories: this.quizService.getQuizCategories(),
-    // }).subscribe(({ quizzes, categories }) => {
-    //   this.quizzes = quizzes.map((quiz) => ({
-    //     ...quiz,
-    //     categoryName: categories.find((category) => category.id === quiz.categoryId)?.name,
-    //   }));
-    // });
-
+    this.quizQuestionsSubject = this.quizService.getAllQuestions();
+    this.quizQuestionsSubscription = this.quizQuestionsSubject.subscribe(quizQuestions => {
+      this.quizQuestions = quizQuestions; 
+    });
 
   }
 
+  getQuestionsCount(id: string) {
 
-  // startEditing(post : Quiz) {
-      
-  //    console.log("Editing: " + JSON.stringify(post));
-  //   this.quizesInEditing.push({...post});
+    let count = 0;
 
-  // }
-
-  // finishEditing(idQuiz: string) {
-
-  //     let post = this.getQuizInEditing(idQuiz) as Quiz;
-
-  //     this.quizesInEditing.splice((this.quizesInEditing.indexOf(post)), 1);
-  //     this.quizService.editQuiz(post); 
-    
-  // }
-
-  // getQuizInEditing(id: string) {
-  //   return this.quizesInEditing.find(post => post.id == id);
-
-  // }
-
-  // inEditing(id: string) {
-  //   return this.getQuizInEditing(id) ? true : false;
-
-  // }
-
-  // deleteQuiz(id: string) {
-    
-  //   console.log(id);
-  //   this.quizService.deleteQuiz(id);
-
-  // }
-
-  // addQuiz() {
-
-  //   console.log("New post: " + JSON.stringify(this.newQuiz));
-
-  //   this.add = !this.add;
-  //   this.quizService.addQuiz(this.newQuiz);
-  //   this.newQuiz = new Quiz();
-  // }
-
-  // startAdding() {
-  //   this.add = !this.add;
-  //   this.newQuiz.userId = this.authService.getUser().id as string;
-  //   this.newQuiz.username = this.authService.getUser().username as string;
-  // }
-
-  // cancelAdding() {
-  //   this.add = !this.add;
-  //   this.newQuiz = new Quiz();
-  // }
-
-  // logout(){
-  //   this.authService.logoutUser();
-  // }
+    this.quizQuestions.forEach(question => { 
+      if (question.quizId === id) {
+        count++;
+      }
+    })
+    return count;
+  }
 
   getCategoryColor(id: string): Observable<string> {
     return this.quizService.getQuizCategory(id)
@@ -178,12 +91,7 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
       )
   }
 
-  
-  // getCategoryColor(id: string): string {
 
-  //   const category = this.quizService.getQuizCategory(id);
-  //   return category?.color ? category.color : "silver";
-  // }
 
   getCategoryImage(id: string): Observable<string> {
     return this.quizService.getQuizCategory(id)
@@ -196,14 +104,8 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
   }
 
 
-  // getCategoryImage(id: string): string {
 
-  //   const path : string = "../../../assets/";
-  //   const category = this.quizService.getQuizCategory(id);
-  //   return category?.image ? path + category.image : "";
-  // }
-
-  setHoverStyle(category: QuizCategory): void {
+  setStyle(category: QuizCategory): void {
     
     if (category.color) {
       this.hoverColor = category.color;
@@ -279,6 +181,10 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
     if (this.quizCategoriesSubscription) {
       this.quizCategoriesSubscription.unsubscribe();
     }
+    if (this.quizQuestionsSubscription) {
+      this.quizQuestionsSubscription.unsubscribe();
+    }
+
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }

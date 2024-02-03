@@ -1,57 +1,6 @@
 h1 {
     font-size: 1.1em;
-    margin-bottom: 1em;
-
 }
-
-.quiz-main  {
-    min-height: 180px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background-size: cover;
-    border-left: 1px solid rgb(225, 225, 225);
-    border-right: 1px solid silver;
-
-}
-
-.quiz-title  {
-    border-radius: 10px;
-    font-size: 1.2em;
-    line-height: normal;
-}
-
-.quiz-questions  {
-    background-color: rgba(150, 150, 150, 0.3);
-    border-radius: 5px;
-}
-
-.quiz-category  {
-    background-color: rgba(192, 192, 192, 0.5);
-    border-radius: 5px;
-}
-
-.quiz-details {
-    font-size: 0.9em;
-}
-
-.quiz-footer  {
-    background-color: whitesmoke;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-left: 1px solid rgb(220, 220, 220);
-    border-right: 1px solid silver;
-    border-bottom: 1px solid silver;
-}
-
-p {
-    margin: 0;
-    padding: 0;
-}
-
-p span {
-    color: dimgray;
-} 
-
 
 .btn {
     padding: 4px 8px;
@@ -103,6 +52,13 @@ p span {
     background-color: rgb(210, 210, 210);
 }
 
+button:disabled {
+    background-color: rgb(180, 180, 180);
+    border: 1px solid silver;
+    opacity: 0.5; 
+    cursor: not-allowed;
+}
+
 .form-group {
     color: black;
 }
@@ -110,5 +66,4 @@ p span {
 .form-control, .form-select {
     color: gray;
 }
-
 

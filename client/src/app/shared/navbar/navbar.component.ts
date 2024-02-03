@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { User } from 'src/app/users/user.model';
+import { UserRole} from 'src/app/users/user-role.model';
 
 @Component({
   selector: 'app-navbar',
@@ -9,6 +10,8 @@ import { User } from 'src/app/users/user.model';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+
+  userRole = UserRole;
 
   authenticated : boolean = false;
   authSubscription : Subscription | null = null;

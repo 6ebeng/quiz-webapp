@@ -1,19 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { Question } from 'src/app/quiz/question.model';
 import { QuizService } from 'src/app/quiz/quiz.service';
 
 @Component({
   selector: 'app-admin-questions',
   templateUrl: './admin-questions.component.html',
-  styleUrls: ['./admin-questions.component.css']
+  styleUrls: ['../admin.css']
 })
 
 export class AdminQuestionsComponent implements OnInit, OnDestroy {
 
   questions : Question[] = [];
-  questionsSubject : BehaviorSubject<Question[]> | null = null;
   questionsSubscription : Subscription | null = null;
 
   selectedQuestion : Question | null = null;
@@ -24,8 +23,8 @@ export class AdminQuestionsComponent implements OnInit, OnDestroy {
   constructor(private quizService: QuizService, private fb : FormBuilder) {}
 
   ngOnInit() {
-    this.questionsSubject = this.quizService.getAllQuestions();
-    this.questionsSubscription = this.questionsSubject.subscribe(quizQuestions => {
+    this.questionsSubscription = this.quizService.getAllQuestions()
+    .subscribe(quizQuestions => {
       this.questions = quizQuestions; 
     });
 
@@ -60,12 +59,33 @@ export class AdminQuestionsComponent implements OnInit, OnDestroy {
 
       this.optionsArray.clear();
 
-      this.selectedQuestion.options.forEach((option) => {
+      this.selectedQuestion.options.forEach(option => {
         this.optionsArray.push(new FormControl(option));
       });
     }
-
   }
+
+  addOption() {
+    this.optionsArray.push(this.fb.control(''));
+  }
+
+  removeOption(index: number) {
+    this.optionsArray.removeAt(index);
+  }
+
+
+  getQuestionTooltip(id: string): Observable<string> {
+    return this.quizService.getQuizzes().pipe(
+      map(quizzes => {
+        const matches = quizzes.filter(quiz => quiz.id === id);
+        const names = matches.map(quiz => quiz.title).join(', ');
+  
+        return names ? 'Unable to delete. Remove from ' +  
+        (matches.length > 1 ? 'quizzes: ' : 'quiz: ') + names : '';
+      }),
+    );
+  }
+
   
   addQuestion() {
     this.initForm();
@@ -73,14 +93,12 @@ export class AdminQuestionsComponent implements OnInit, OnDestroy {
   }
 
   editQuestion(question: Question) {
-    
     this.selectedQuestion = {...question};
     this.updateForm();    
     this.mode = 'edit';
   }
 
   deleteQuestion(id: string) {
-
     this.quizService.deleteQuestion(id);
   }
 
@@ -90,7 +108,6 @@ export class AdminQuestionsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(){
-
     if (this.mode === 'add') {
       const { id, ...question} = this.questionForm.value;
       question.timestamp = new Date();

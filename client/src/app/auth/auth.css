@@ -1,0 +1,30 @@
+button.btn-login {
+    background-color: silver;
+}
+
+button.btn-login:hover {
+    background-color: rgb(210, 210, 210);
+}
+
+button.btn-register {
+    border-color: silver;
+}
+
+button.btn-register:hover {
+    border-color: lightblue;
+    background-color: lightblue;
+}
+
+.form-invalid, .form-message {
+    color: rgb(235, 0, 0);
+}
+
+.info-text {
+    font-size: 1.2em;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0; 
+    margin: 0; 
+}

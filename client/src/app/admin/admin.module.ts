@@ -6,20 +6,25 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { AdminQuizzesComponent } from './admin-quizzes/admin-quizzes.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { AdminQuestionsComponent } from './admin-questions/admin-questions.component';
+import { AdminCategoriesComponent } from './admin-categories/admin-categories.component';
 import { SharedModule } from '../shared/shared.module';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
     AdminDashboardComponent,
     AdminQuizzesComponent,
     AdminUsersComponent,
-    AdminQuestionsComponent
+    AdminQuestionsComponent,
+    AdminCategoriesComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
-    SharedModule
+    SharedModule,
+    MatButtonModule,
+    MatTooltipModule
   ]
 })
 export class AdminModule { }
