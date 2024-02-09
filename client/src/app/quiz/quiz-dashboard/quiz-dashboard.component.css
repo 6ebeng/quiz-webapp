@@ -1,4 +1,3 @@
-
 .page-header-title {
     font-family: 'Indie Flower', cursive;
     font-size: 1.6em;
@@ -17,7 +16,7 @@
 }
 
 .quiz-main  {
-    min-height: 300px;
+    min-height: 280px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     background-size: cover;
@@ -47,15 +46,17 @@
     text-overflow: ellipsis;
 }
 
+.quiz-main-details-popup {
+    background-color: rgba(200, 200, 200, 0.6);
+    border-right: 1px solid rgba(160, 160, 160, 0.8);
+    border-bottom: 1px solid rgba(160, 160, 160, 0.8);
+}
+
+
 .quiz-main-details-description  {
     margin: 0;
-    color: rgb(250, 250, 250)
+    color: rgba(0, 0, 0, 0.9);
 }
-
-.quiz-main-details-popup {
-    background-color: rgba(35, 105, 105, 0.6);
-}
-
 
 .quiz-main-details-title {
     font-family: 'Seymour One', sans-serif;
@@ -123,22 +124,31 @@ input[type="text"] {
     font-size: 1em;
 }
 
+
+
 @media (max-width: 1200px) { 
 
     .quiz-details  {
         -webkit-line-clamp: 3;
-
     }
 
     .quiz-main-details-title {
         font-size: 1.6em;
-
     }
     
 }
 
 
 @media (max-width: 768px) { 
+
+    .page-header {
+        padding: 0 1em;
+    }
+
+    .quiz-container {
+        margin: 0;
+    }
+    
 
     .quiz-details  {
         -webkit-line-clamp: 3;

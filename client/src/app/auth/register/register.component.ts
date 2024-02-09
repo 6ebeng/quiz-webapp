@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Subscription, filter, map } from 'rxjs';
 import { AuthService } from 'src/app/shared/auth.service';
 import { ValidatorService } from 'src/app/shared/validator.service';
 
@@ -18,7 +16,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   registerForm!: FormGroup;
   message : string = '';
 
-  constructor(private authService: AuthService,  private router : Router, private fb : FormBuilder, private validatorService: ValidatorService) {}
+  constructor(private authService: AuthService, private fb : FormBuilder, private validatorService: ValidatorService) {}
 
   ngOnInit(): void {
 

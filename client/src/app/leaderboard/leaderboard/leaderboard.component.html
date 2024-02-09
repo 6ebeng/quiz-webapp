@@ -1,1 +1,33 @@
-<p>leaderboard works!</p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-xxl-7 px-md-4 mt-5 mt-md-5">
+            <h1>Leaderboard</h1>
+            <table class="table table-responsive mt-3">
+                <thead>
+                    <tr class="table-header text-center">
+                        <th>Id</th>
+                        <th>Img</th>
+                        <th>Username</th>
+                        <th>Age</th>
+                        <th>Total quizzes</th>
+                        <th>Total questions</th>
+                        <th>Total score</th>
+                        <th>Average score %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users; let i = index">
+                        <td class="text-center">{{i+1}}</td>
+                        <td class="text-center"><img class="profile-img" [src]="user.imageUrl ? imgDir + user.imageUrl : defaultImg" alt="profile img"></td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.age}}</td>
+                        <td>{{user.quizzes}}</td>
+                        <td>{{user.questions}}</td>
+                        <td>{{user.score}}</td>
+                        <td>{{user.averageScore}}</td>              
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>

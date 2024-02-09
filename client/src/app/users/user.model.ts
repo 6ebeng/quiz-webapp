@@ -10,6 +10,11 @@ export class User {
     age: number = 0;
     email : string = '';
     role: UserRole = UserRole.User;
-    avatarURL? : string = '';
+    imageUrl? : string = '';
+
+    quizzes?: number = 0;
+    questions?: number = 0;
+    score?: number = 0;
+    averageScore?: number = 0;
 }
   

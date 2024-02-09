@@ -1,5 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, filter, map } from 'rxjs';
 import { Quiz } from '../quiz.model';
 import { User } from 'src/app/users/user.model';
 import { AuthService } from 'src/app/shared/auth.service';
@@ -15,6 +15,7 @@ import { Question } from '../question.model';
 })
 export class QuizDashboardComponent implements OnInit, OnDestroy {
 
+  hoverIndex : number = -1;
   hoverColor : string = '';
   filterValues : string[] = [];
   query : string = '';
@@ -23,20 +24,16 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
   description : boolean = false;
 
   user: User = new User();
-  userSubject : BehaviorSubject<User> | null = null;
   userSubscription : Subscription | null = null;
 
   quizzes : Quiz[] = [];
-  quizzesSubject : BehaviorSubject<Quiz[]> | null = null;
   quizzesSubscription : Subscription | null = null;
 
   quizCategories : QuizCategory[] = [];
-  quizCategoriesSubject : BehaviorSubject<QuizCategory[]> | null = null;
   quizCategoriesSubscription : Subscription | null = null;
 
-  quizQuestions : Question[] = [];
-  quizQuestionsSubject : BehaviorSubject<Question[]> | null = null;
-  quizQuestionsSubscription : Subscription | null = null;
+  // quizQuestions : Question[] = [];
+  // quizQuestionsSubscription : Subscription | null = null;
 
   authSubscription : Subscription | null = null;
 
@@ -48,41 +45,40 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
       this.authenticated = authenticated;
     });
 
-    this.authenticated = this.authService.isAuthenticated();
+    // this.authenticated = this.authService.isAuthenticated();
 
-    this.userSubject = this.authService.getUser();
-    this.userSubscription = this.userSubject.subscribe(user => {
-      this.user = user;
-    });
+    // this.userSubscription = this.authService.getUser().subscribe(user => {
+    //   this.user = user;
+    // });
 
-    this.quizzesSubject = this.quizService.getQuizzes();
-    this.quizzesSubscription = this.quizzesSubject.subscribe(quizzes => {
+    this.quizzesSubscription = this.quizService.getQuizzes().subscribe(quizzes => {
       this.quizzes = quizzes;
     });
 
-    this.quizCategoriesSubject = this.quizService.getQuizCategories();
-    this.quizCategoriesSubscription = this.quizCategoriesSubject.subscribe(quizCategories => {
+    this.quizCategoriesSubscription = this.quizService.getQuizCategories().subscribe(quizCategories => {
       this.quizCategories = quizCategories; 
     });
 
-    this.quizQuestionsSubject = this.quizService.getAllQuestions();
-    this.quizQuestionsSubscription = this.quizQuestionsSubject.subscribe(quizQuestions => {
-      this.quizQuestions = quizQuestions; 
-    });
+    // this.quizQuestionsSubject = this.quizService.getAllQuestions();
+
+    // this.quizQuestionsSubscription = this.quizQuestionsSubject.subscribe(quizQuestions => {
+    //   this.quizQuestions = quizQuestions; 
+    // });
 
   }
 
-  getQuestionsCount(id: string) {
-
-    let count = 0;
-
-    this.quizQuestions.forEach(question => { 
-      if (question.quizId === id) {
-        count++;
-      }
-    })
-    return count;
+  getQuestionsCount(id: string): Observable<number> {
+    return this.quizService.assignedQuestionsSubject.pipe(
+      map(questions => (questions ? questions.filter(question => question.quizId === id).length : 0))
+    );
   }
+
+
+  // getQuestionsCount(id: string) {
+
+  //   return this.quizQuestions.filter(question => question.quizId === id).length;
+
+  // }
 
   getCategoryColor(id: string): Observable<string> {
     return this.quizService.getQuizCategory(id)
@@ -90,8 +86,6 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
         map(category => category?.color ? category.color : "silver")
       )
   }
-
-
 
   getCategoryImage(id: string): Observable<string> {
     return this.quizService.getQuizCategory(id)
@@ -104,11 +98,11 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
   }
 
 
-
-  setStyle(category: QuizCategory): void {
+  setStyle(category: QuizCategory, index: number): void {
     
     if (category.color) {
       this.hoverColor = category.color;
+      this.hoverIndex = index;
     }
   }
   
@@ -116,6 +110,7 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
 
     if (!category.selected) {
       this.hoverColor = '';
+      this.hoverIndex = -1;
     }
   }
 
@@ -142,7 +137,7 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
 
       setTimeout(() => {
         quiz.showDescription = false;
-      }, 3000);
+      }, 5000);
     
     }
   }
@@ -181,9 +176,9 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
     if (this.quizCategoriesSubscription) {
       this.quizCategoriesSubscription.unsubscribe();
     }
-    if (this.quizQuestionsSubscription) {
-      this.quizQuestionsSubscription.unsubscribe();
-    }
+    // if (this.quizQuestionsSubscription) {
+    //   this.quizQuestionsSubscription.unsubscribe();
+    // }
 
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();

@@ -19,7 +19,7 @@
                 <td class="text-center">{{(isCategoryAssigned(category.id) | async) ? 'yes' : 'no'}}</td>
                 <td class="text-center"><button class="btn btn-edit" (click)="editCategory(category)"><i class="fas fa-pencil"></i></button></td>
 
-                <td class="text-center" [matTooltip]="(getCategoryTooltip(category.id) | async)!" matTooltipPosition="above">
+                <td class="text-center" [matTooltip]="(getCategoryTooltip(category.id))!" matTooltipPosition="above">
                     <button class="btn btn-delete" [disabled]="isCategoryAssigned(category.id) | async" (click)="deleteCategory(category.id)">
                     <i class="fas fa-trash"></i>
                     </button>
@@ -33,13 +33,21 @@
             <fieldset class="form-group">
                 <label>Category:</label>
                 <input class="form-control" type="text" formControlName="name"/>
+                <ul *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(categoryForm.get('name')!)">{{msg}}</li>
+                </ul>
             </fieldset>
             <fieldset class="form-group">
                 <label>Description:</label>
                 <input class="form-control" type="text" formControlName="description"/>
+                <ul *ngIf="categoryForm.get('description')?.invalid && categoryForm.get('description')?.touched">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(categoryForm.get('description')!)">{{msg}}</li>
+                </ul>
             </fieldset>
             <div>
-                <button class="btn btn-sel mt-2 me-2" type="button" (click)="onSubmit()">{{mode === 'add' ? 'Add' : 'Save'}}</button>
+                <span [matTooltip]="!categoryForm.valid ? 'Form is not valid': ''" matTooltipPosition="above">
+                    <button class="btn btn-sel mt-2 me-2" type="button" [disabled]="!categoryForm.valid" (click)="onSubmit()">{{mode === 'add' ? 'Add' : 'Save'}}</button>
+                </span>
                 <button class="btn btn-sel btn-can mt-2" type="button" (click)="onCancel()">Cancel</button>
             </div>
 

@@ -2,22 +2,16 @@
     font-size: 1em;
 }
 
-button.btn-confirm {
-    background-color: rgb(150, 220, 220);
+.btn {
+    font-size: 0.9em;
+    border: 1px solid silver;
+    background-color: whitesmoke;
 }
 
-button.btn-confirm:hover {
-    background-color: rgb(115, 185, 185);
+.btn:hover {
+    background-color: rgb(220, 220, 220);
 }
 
-
-button.btn-quit {
-    background-color: rgb(211, 210, 210);
-}
-
-button.btn-quit:hover {
-    background-color: rgb(170, 170, 170);
-}
 
 input[type="radio"] {
     border: 2px solid lightgray;
@@ -29,4 +23,18 @@ input[type="radio"]:checked {
     background-color: silver;
     border: 1px solid grey;
 
+}
+
+.card-body  {
+    border-right: 1px solid rgb(230, 230, 230);
+    border-bottom: 1px solid rgb(220, 220, 220);
+}
+
+.hint {
+    color: silver;
+    min-height: 50px;
+}
+
+.waiting {
+    font-size: 0.9em;
 }

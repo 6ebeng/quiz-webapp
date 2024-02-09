@@ -7,16 +7,16 @@
             <form [formGroup]="loginForm" (submit)="onLogin()">
                 <fieldset class="form-group">
                     <label for="username">Username: </label><br>
-                    <input class="rounded" type="text" id="username" formControlName="username">
+                    <input class="custom-control rounded" type="text" id="username" formControlName="username">
                     <ul *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.dirty">
-                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(loginForm.get('username')!)">- {{msg}}</li>
+                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(loginForm.get('username')!)">{{msg}}</li>
                     </ul>
                 </fieldset>
                 <fieldset class="form-group mt-2">
                     <label for="password">Password: </label><br>
-                    <input class="rounded" type="password" id="password" formControlName="password">
+                    <input class="custom-control rounded" type="password" id="password" formControlName="password">
                     <ul *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.dirty">
-                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(loginForm.get('password')!)">- {{msg}}</li>
+                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(loginForm.get('password')!)">{{msg}}</li>
                     </ul>
                 </fieldset>
                 <button class="btn btn-sm btn-login mt-2" type="submit" [disabled]="!loginForm.valid">Sign in</button>

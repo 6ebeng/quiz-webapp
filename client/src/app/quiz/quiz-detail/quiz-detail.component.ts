@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { QuizService } from '../quiz.service';
 import { Quiz } from '../quiz.model';
-import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, combineLatest, mergeMap } from 'rxjs';
 import { Question } from '../question.model';
 import { User } from 'src/app/users/user.model';
 import { AuthService } from 'src/app/shared/auth.service';
@@ -24,7 +24,7 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
   questionsSubscription: Subscription | null = null;
 
   user: User = new User();
-  userSubject : BehaviorSubject<User> | null = null;
+  // userSubject : BehaviorSubject<User> | null = null;
   userSubscription : Subscription | null = null;
 
   timeLeft: number = 0; 
@@ -44,7 +44,6 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
       this.id = data['quizid'];
     });
 
-  
     this.quizSubscription = this.quizService.getQuiz(this.id).subscribe({
       next: (quiz) => {
 
@@ -64,28 +63,63 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
         console.log(error);
       }});
 
-      this.questionsSubscription = this.quizService.getQuizQuestions(this.id).subscribe({
-        next: (questions) => {
+    this.questionsSubscription = combineLatest([
+      this.quizService.getAssignedQuestions(),
+      this.quizService.getAllQuestions(),
+    ]).pipe(
+      mergeMap(([dataAssignedQuestions, dataAllQuestions]) => {
+
+        const asquestionIds = dataAssignedQuestions
+          .filter(asquestion => asquestion.quizId === this.id)
+          .map(asquestion => asquestion.questionId);
+    
+        const quizQuestions = dataAllQuestions.filter(question => asquestionIds.includes(question.id));
+    
+        this.quizQuestions = quizQuestions;
+        this.quizResults.totalQuestions = quizQuestions.length;
+    
+        if (this.timeLeft) {
+          this.startTimer();
+        }
+    
+        return [];
+      })
+    ).subscribe({
+      error: (error) => {
+        console.log(error);
+      }
+    });
+    
+
+    // this.userSubject = this.authService.getUser();
+    this.userSubscription = this.authService.getUser().subscribe(user => {
+      this.user = user;
+      this.quizResults.userId = this.user.id;
+    });
+
+
+      // this.questionsSubscription = this.quizService.getQuizQuestions(this.id).subscribe({
+      //   next: (questions) => {
   
-          if (questions) {
-            this.quizQuestions = questions;
-            this.quizResults.totalQuestions = this.quizQuestions.length;
-          }
-          // console.log(this.quizQuestions);
-          if (this.timeLeft)  { 
-            this.startTimer();
-          }
-        },
-        error: (error) => {
-          console.log(error);
-        }});
+      //     if (questions) {
+      //       this.quizQuestions = questions;
+      //       this.quizResults.totalQuestions = this.quizQuestions.length;
+      //     }
+      //     // console.log(this.quizQuestions);
+      //     if (this.timeLeft)  { 
+      //       this.startTimer();
+      //     }
+      //   },
+      //   error: (error) => {
+      //     console.log(error);
+      //   }});
 
 
-      this.userSubject = this.authService.getUser();
-      this.userSubscription = this.userSubject.subscribe(user => {
-        this.user = user;
-        this.quizResults.userId = this.user.id;
-      });
+      // this.userSubject = this.authService.getUser();
+      // this.userSubscription = this.userSubject.subscribe(user => {
+      //   this.user = user;
+      //   this.quizResults.userId = this.user.id;
+      // });
 
   
   }
@@ -133,7 +167,7 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
       this.questionIndex++;
     }
     else {
-      this.quizResults.questionsAnsered = this.quizResults.totalQuestions;
+      this.quizResults.questionsAnswered = this.quizResults.totalQuestions;
 
       this.quizService.addQuizResults(this.quizResults);
       this.quizCompletedActions();

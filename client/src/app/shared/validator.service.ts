@@ -53,14 +53,15 @@ msgTemplates : Map<string, string> = new Map([
     };
   }
 
-  generateErrorMsgs(control: AbstractControl, patterns?: string[]): string[] {
+  generateErrorMsgs(control: AbstractControl, patterns?: string[] | null, prefix: string = ''): string[] {
 
     const formGroup = control.parent;
     let controlName: string | undefined = '';
 
     if (formGroup) {
       const controls = formGroup.controls as {[key: string]: AbstractControl};
-      controlName = Object.keys(controls).find(name => control === controls[name]);
+      const cn = Object.keys(controls).find(name => control === controls[name]);
+      controlName = prefix + ' ' + (!isNaN(parseInt(cn!)) ? String(parseInt(cn!) + 1) : cn);
 
       if (controlName?.indexOf('repeated') != -1) {
         controlName = controlName?.replace('repeated', '').toLowerCase(); 

@@ -7,30 +7,30 @@
             <form [formGroup]="registerForm" (submit)="onRegister()">
                 <fieldset class="form-group">
                     <label for="username">Username: </label><br>
-                    <input class="rounded" type="text" id="username" formControlName="username"><br>
+                    <input class="custom-control rounded" type="text" id="username" formControlName="username"><br>
                     <ul *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.dirty">
                         <li class="form-invalid" *ngFor="let msg of getErrorMessages(registerForm.get('username')!)">- {{msg}}</li>
                     </ul>
                 </fieldset>
                 <fieldset class="form-group mt-2">
                     <label for="password">Password: </label><br>
-                    <input class="rounded" type="password" id="password" formControlName="password"><br>
+                    <input class="custom-control rounded" type="password" id="password" formControlName="password"><br>
                     <ul *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.dirty">
                         <li class="form-invalid" *ngFor="let msg of getErrorMessages(registerForm.get('password')!, ['at least one number', 'at least one special character'])">- {{msg}}</li>
                     </ul>
                 </fieldset>
                 <fieldset class="form-group mt-2">
                     <label for="repeatedPassword">Repeat password: </label><br>
-                    <input class="rounded" type="password" id="repeatedPassword" formControlName="repeatedPassword">
+                    <input class="custom-control rounded" type="password" id="repeatedPassword" formControlName="repeatedPassword">
                     <ul *ngIf="registerForm.get('repeatedPassword')?.invalid && registerForm.get('repeatedPassword')?.dirty">
-                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(registerForm.get('repeatedPassword')!, ['at least one number', 'at least one special character'])">- {{msg}}</li>
+                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(registerForm.get('repeatedPassword')!, ['at least one number', 'at least one special character'])">{{msg}}</li>
                     </ul>
                 </fieldset>
                 <fieldset class="form-group mt-2">
                     <label for="email">E-mail: </label><br>
-                    <input class="rounded" type="email" id="email" formControlName="email">
+                    <input class="custom-control rounded" type="email" id="email" formControlName="email">
                     <ul *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.dirty">
-                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(registerForm.get('email')!)">- {{msg}}</li>
+                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(registerForm.get('email')!)">{{msg}}</li>
                     </ul>
                 </fieldset>
                 <button class="btn btn-sm btn-login mt-2" type="submit" [disabled]="!registerForm.valid">Register</button>

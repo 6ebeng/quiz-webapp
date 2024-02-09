@@ -1,19 +1,42 @@
-button.btn-login {
+.btn {
+    font-size: 0.9em;
+    border: 1px solid silver;
+    background-color: whitesmoke;
+}
+
+.btn:hover {
+    background-color: rgb(220, 220, 220);
+}
+
+input[type='text'], input[type='password'] {
+    margin: 0;
+    font-size: 14px; 
+    padding: 2px 4px; 
+} 
+
+input.custom-control {
+    border-color: silver;
+    border:1px solid silver;
+    box-shadow: 0 0 1px silver;
+}
+
+/* 
+.btn.btn-login {
     background-color: silver;
 }
 
-button.btn-login:hover {
+.btn.btn-login:hover {
     background-color: rgb(210, 210, 210);
 }
 
-button.btn-register {
+.btn.btn-register {
     border-color: silver;
 }
 
-button.btn-register:hover {
+.btn.btn-register:hover {
     border-color: lightblue;
     background-color: lightblue;
-}
+} */
 
 .form-invalid, .form-message {
     color: rgb(235, 0, 0);

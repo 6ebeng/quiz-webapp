@@ -5,6 +5,8 @@ export class Question {
     options : string[] = [];
     answer : string = '';
     timestamp: Date = new Date();
-    quizId: string = '';
+    toggled? : boolean = false;
+    openAi?: boolean = false;
+
 }
   

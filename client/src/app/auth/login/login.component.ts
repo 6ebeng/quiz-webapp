@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subscription } from 'rxjs';
 import { AuthService } from '../../shared/auth.service';
 import { ValidatorService } from 'src/app/shared/validator.service';
 
@@ -20,7 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   // formInvalid : boolean = false;
   message : string = '';
 
-  constructor(private authService : AuthService, private router : Router, private fb : FormBuilder, private validatorService: ValidatorService) {}
+  constructor(private authService : AuthService, private fb : FormBuilder, private validatorService: ValidatorService) {}
 
   ngOnInit() {
 
@@ -51,7 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     if (this.loginForm.valid) {
       // this.formInvalid = false;
-      this.authService.loginUser(this.loginForm.value.username, this.loginForm.value.password);
+      this.authService.loginUser({username: this.loginForm.value.username, password: this.loginForm.value.password});
     }
     // else {
     //   this.formInvalid = true;

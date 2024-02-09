@@ -1,9 +1,11 @@
-button.btn-confirm {
-    background-color: rgb(150, 220, 220);
+.btn {
+    font-size: 0.9em;
+    border: 1px solid silver;
+    background-color: whitesmoke;
 }
 
-button.btn-confirm:hover {
-    background-color: rgb(115, 185, 185);
+.btn:hover {
+    background-color: rgb(220, 220, 220);
 }
 
 .row p {
@@ -13,3 +15,9 @@ button.btn-confirm:hover {
 .result {
     color: grey;
 }
+
+.card-body  {
+    border-right: 1px solid rgb(230, 230, 230);
+    border-bottom: 1px solid rgb(220, 220, 220);
+}
+

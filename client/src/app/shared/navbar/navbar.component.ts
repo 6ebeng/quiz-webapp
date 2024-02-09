@@ -3,6 +3,8 @@ import { AuthService } from '../auth.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { User } from 'src/app/users/user.model';
 import { UserRole} from 'src/app/users/user-role.model';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -15,12 +17,14 @@ export class NavbarComponent {
 
   authenticated : boolean = false;
   authSubscription : Subscription | null = null;
-  user: User = new User();
 
-  userSubject : BehaviorSubject<User> | null = null;
+  user: User = new User();
   userSubscription : Subscription | null = null;
+
+  imgDir : string = environment.API_URL + '/uploads/';
+  defaultImg : string = '../../../assets/avatar.png';
   
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
 
@@ -28,13 +32,14 @@ export class NavbarComponent {
       this.authenticated = authenticated;
     });
 
-    this.authenticated = this.authService.isAuthenticated();
-
-    this.userSubject = this.authService.getUser();
-    this.userSubscription = this.userSubject.subscribe(user => {
+    this.userSubscription = this.authService.getUser().subscribe(user => {
       this.user = user;
     });
  }
+
+  isActive() {
+    return this.router.url.includes('user') || this.router.url.includes('statistics');
+  }
 
  logout(){
    this.authService.logoutUser();

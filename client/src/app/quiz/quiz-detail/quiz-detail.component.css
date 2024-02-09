@@ -6,26 +6,25 @@
     width: fit-content;
     border: 1px solid lightgrey;
     border-radius: 5px;
-    box-shadow: 2px 2px 0 0 silver;
 }
 
 .info-display p {
     margin-bottom: 0;
-    padding: 0 10px 10px 10px;
-}
-
-.info-display p:first-child {
-    margin-bottom: 8px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    background-color: whitesmoke;
-
+    padding: 5px;
 }
 
 .expired {
-    font-size: 1.2em;
-    font-weight: normal;
-    color: grey;
+    letter-spacing: 0.5px;
+
+}
+
+
+@media (min-width: 1620px) { 
+
+    .quiz-container {
+        max-width: 550px;
+    }
+   
 }
 
 
