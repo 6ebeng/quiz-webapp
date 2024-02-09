@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/auth.service';
 import { ValidatorService } from 'src/app/shared/validator.service';
@@ -8,10 +8,7 @@ import { ValidatorService } from 'src/app/shared/validator.service';
   templateUrl: './register.component.html',
   styleUrls: ['../auth.css']
 })
-export class RegisterComponent implements OnInit, OnDestroy {
-
-  // authSubscription : Subscription | null = null;
-  // private authenticated : boolean = false;
+export class RegisterComponent implements OnInit {
 
   registerForm!: FormGroup;
   message : string = '';
@@ -36,15 +33,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.message = msg;
     });
 
-    // this.authSubscription = this.authService.authStatus.subscribe(authenticated => {
-    //   this.authenticated = authenticated;
-    // });
-
-    // this.authenticated = this.authService.isAuthenticated();
-
-    // if (this.authenticated) {
-    //   this.router.navigate(['/']);
-    // }
   }
 
   getErrorMessages(control: AbstractControl, patterns?: string[]): string[] {
@@ -56,14 +44,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     const {repeatedPassword, ...user} = this.registerForm.value;
     this.authService.registerUser(user);
-  }
-
-  ngOnDestroy() {
-
-    // if (this.authSubscription) {
-    //   this.authSubscription.unsubscribe();
-    // }
-
   }
 
 }

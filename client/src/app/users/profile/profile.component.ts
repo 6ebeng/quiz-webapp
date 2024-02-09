@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { BehaviorSubject, Subscription, switchMap, take } from 'rxjs';
+import { Subscription} from 'rxjs';
 import { User } from '../user.model';
 import { AuthService } from 'src/app/shared/auth.service';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -81,7 +81,6 @@ export class ProfileComponent {
 
 }
 
-
  onCancel() {
 
   this.edit = !this.edit;
@@ -120,7 +119,6 @@ export class ProfileComponent {
       this.maxSize = true;
     }
   }
-
 
   removeImage() {
 

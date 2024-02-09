@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subscription, combineLatest, forkJoin, map, switchMap, take } from 'rxjs';
+import { Observable, Subscription, map, switchMap, take } from 'rxjs';
 import { AssignedQuestion } from 'src/app/quiz/assigned-question.model';
 import { Question } from 'src/app/quiz/question.model';
 import { QuizCategory } from 'src/app/quiz/quiz-category.model';
@@ -28,6 +28,7 @@ export class AdminQuizzesComponent implements OnInit, OnDestroy {
   assignedQuestionsSubscription : Subscription | null = null;
 
   selectedQuiz : Quiz | null = null;
+  selectedCategory: QuizCategory |null = null
   quizForm! : FormGroup;
   questionsArray!: FormArray;
 
@@ -78,20 +79,9 @@ export class AdminQuizzesComponent implements OnInit, OnDestroy {
       'title' : new FormControl('', Validators.required),
       'description' : new FormControl('', Validators.required),
       'category': new FormControl('', Validators.required),
-      'timelimit' : new FormControl('', Validators.required),
+      'timelimit' : new FormControl('', null),
       'questions': this.questionsArray
     });
-
-    // this.quizForm.valueChanges.subscribe(values => {
-    //   // Iterate over the form controls
-    //   Object.keys(this.quizForm.controls).forEach(controlName => {
-    //     const control = this.quizForm.get(controlName);
-    //     if (control && !control.value) { // Check if control exists and its value is blank
-    //       control.setValue(''); // Set the value to blank
-    //     }
-    //   });
-    // });
-
 
   }
 
@@ -99,11 +89,11 @@ export class AdminQuizzesComponent implements OnInit, OnDestroy {
 
     this.questionsArray.clear();
 
-    const asquestionIds = this.assignedQuestions
-    .filter(asquestion => asquestion.quizId === this.selectedQuiz?.id)
-    .map(asquestion => asquestion.questionId);
-
-    const quizQuestions = this.quizQuestions.filter(question => asquestionIds.includes(question.id));
+    const aQuestionIds = this.assignedQuestions
+    .filter(aq => aq.quizId === this.selectedQuiz?.id)
+    .map(aq => aq.questionId);
+    
+    const quizQuestions = this.quizQuestions.filter(question => aQuestionIds.includes(question.id));
 
     quizQuestions
       .forEach(question =>
@@ -185,58 +175,71 @@ export class AdminQuizzesComponent implements OnInit, OnDestroy {
 
       this.quizService.addQuiz(quizMod);
 
-      this.quizService.quizzesSubject.pipe(take(1)).subscribe(quizzes => {
-        const addedQuiz = quizzes.reduce((prevTs, curTs) => {
-          return prevTs > curTs ? prevTs : curTs;
-        });
-
-        if (addedQuiz) {
-          questionsIds.forEach((questionId: string) => {
-            this.quizService.addAssignedQuestion({ quizId: addedQuiz.id, questionId: questionId } as AssignedQuestion);
-          });
-        }
-      });
-      
-      // this.quizService.addQuiz(quizMod).subscribe(newId => {
-      //   const addedQuiz: Quiz = { id: newId, ...quizMod };
-      
-      //   questionsIds.forEach((questionId: string) => {
-      //     this.quizService.addAssignedQuestion({ quizId: addedQuiz.id, questionId: questionId } as AssignedQuestion);
+      // this.quizService.quizzesSubject.pipe(take(1)).subscribe(quizzes => {
+      //   const addedQuiz = quizzes.reduce((prevTs, curTs) => {
+      //     return prevTs > curTs ? prevTs : curTs;
       //   });
+
+      //   if (addedQuiz) {
+      //     questionsIds.forEach((questionId: string) => {
+      //       this.quizService.addAssignedQuestion({ quizId: addedQuiz.id, questionId: questionId } as AssignedQuestion);
+      //     });
+      //   }
       // });
 
+      this.quizService.addQuiz(quizMod).subscribe({
+        next: (id: string) => {
+      
+          questionsIds.forEach((questionId: string) => {
+              this.quizService.addAssignedQuestion({ quizId: id, questionId: questionId } as AssignedQuestion);
+          });
+        },
+        error: (err) => {
+          console.log(err);
+        }});
     } 
     else if (this.mode === 'edit') {
+
+      this.quizService.editQuiz(quiz).subscribe({
+        next: (status: string) => {
+
+          if (status === 'OK') {
+
+            const asQuestions = this.assignedQuestions.filter(asQuestion => asQuestion.quizId === quiz.id);
+            asQuestions.forEach(asQuestion => {
       
-      this.quizService.editQuiz(quiz);
-
-      const asQuestions = this.assignedQuestions.filter(asQuestion => asQuestion.quizId === quiz.id);
-      asQuestions.forEach(asQuestion => {
-
-        if (!questionsIds.some((id : string) => id === asQuestion.questionId))
-          this.quizService.deleteAssignedQuestion(asQuestion.id);
-        }
-      );
-
-      questionsIds.forEach((questionId: string) => {
-        const assignedQuestion = this.assignedQuestions.find(asQuestion => asQuestion.quizId === quiz.id && asQuestion.questionId === questionId);
+              if (!questionsIds.some((id : string) => id === asQuestion.questionId))
+                this.quizService.deleteAssignedQuestion(asQuestion.id);
+              }
+            );
       
-        if (assignedQuestion) {
-          assignedQuestion.questionId = questionId;
-          this.quizService.editAssignedQuestion(assignedQuestion);
-        }
-        else  {
-          this.quizService.addAssignedQuestion({ quizId: quiz.id, questionId: questionId } as AssignedQuestion);
-        }
-      });
-  
+            questionsIds.forEach((questionId: string) => {
+              const assignedQuestion = this.assignedQuestions.find(asQuestion => asQuestion.quizId === quiz.id && asQuestion.questionId === questionId);
+            
+              if (assignedQuestion) {
+                assignedQuestion.questionId = questionId;
+                this.quizService.editAssignedQuestion(assignedQuestion);
+              }
+              else  {
+                this.quizService.addAssignedQuestion({ quizId: quiz.id, questionId: questionId } as AssignedQuestion);
+              }
+            });
+          }
+      
+        },
+        error: (err) => {
+          console.log(err);
+        }});
+      
     }
     this.onCancel();
   }
 
   getQuestionsCount(id: string): Observable<number> {
     return this.quizService.assignedQuestionsSubject.pipe(
-      map(questions => (questions ? questions.filter(question => question.quizId === id).length : 0))
+      map(questions => {
+        return questions.filter(q => q.quizId === id).length;
+      })
     );
   }
 
@@ -250,8 +253,6 @@ export class AdminQuizzesComponent implements OnInit, OnDestroy {
         })
       )
   }
-
-
   
   ngOnDestroy() {
 

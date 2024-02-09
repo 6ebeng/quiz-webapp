@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { QuizService } from '../quiz.service';
 import { Quiz } from '../quiz.model';
-import { BehaviorSubject, Observable, Subscription, combineLatest, mergeMap } from 'rxjs';
+import {  Subscription, combineLatest, mergeMap } from 'rxjs';
 import { Question } from '../question.model';
 import { User } from 'src/app/users/user.model';
 import { AuthService } from 'src/app/shared/auth.service';
@@ -24,7 +24,6 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
   questionsSubscription: Subscription | null = null;
 
   user: User = new User();
-  // userSubject : BehaviorSubject<User> | null = null;
   userSubscription : Subscription | null = null;
 
   timeLeft: number = 0; 
@@ -90,38 +89,11 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
       }
     });
     
-
-    // this.userSubject = this.authService.getUser();
     this.userSubscription = this.authService.getUser().subscribe(user => {
       this.user = user;
       this.quizResults.userId = this.user.id;
     });
 
-
-      // this.questionsSubscription = this.quizService.getQuizQuestions(this.id).subscribe({
-      //   next: (questions) => {
-  
-      //     if (questions) {
-      //       this.quizQuestions = questions;
-      //       this.quizResults.totalQuestions = this.quizQuestions.length;
-      //     }
-      //     // console.log(this.quizQuestions);
-      //     if (this.timeLeft)  { 
-      //       this.startTimer();
-      //     }
-      //   },
-      //   error: (error) => {
-      //     console.log(error);
-      //   }});
-
-
-      // this.userSubject = this.authService.getUser();
-      // this.userSubscription = this.userSubject.subscribe(user => {
-      //   this.user = user;
-      //   this.quizResults.userId = this.user.id;
-      // });
-
-  
   }
 
   startTimer() {
@@ -131,9 +103,7 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
         this.timeLeft--;
         sessionStorage.setItem('timeLeft', this.timeLeft.toString());
       } else {
-        // this.quizCompleted = true;
-        // sessionStorage.removeItem("timeLeft");
-        // clearInterval(this.timer);
+
         this.quizCompletedActions();
       }
     }, 1000); 
@@ -185,7 +155,6 @@ export class QuizDetailComponent implements OnInit, OnDestroy {
       clearInterval(this.timer);
     }
   }
-
 
   ngOnDestroy() {
 

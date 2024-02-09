@@ -172,11 +172,9 @@ export class AdminQuestionsComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.mode === 'add' ) {
-
       const { id, ...question} = this.questionForm.value;
       question.timestamp = new Date();
-    
-      this.quizService.addQuestion(question);
+      this.quizService.addQuestion(question).subscribe();
     } 
     else if (this.mode === 'edit') {
       this.quizService.editQuestion({...this.questionForm.value, timestamp: new Date()});

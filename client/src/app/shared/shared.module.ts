@@ -6,12 +6,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FilterPipe } from './filter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SortPipe } from './sort.pipe';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     FooterComponent,
     FilterPipe,
+    SortPipe,
     
   ],
   imports: [
@@ -21,6 +23,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule
   ],
-  exports: [NavbarComponent, FooterComponent, FilterPipe, FormsModule, ReactiveFormsModule]
+  exports: [NavbarComponent, FooterComponent, FilterPipe, SortPipe, FormsModule, ReactiveFormsModule]
 })
 export class SharedModule { }

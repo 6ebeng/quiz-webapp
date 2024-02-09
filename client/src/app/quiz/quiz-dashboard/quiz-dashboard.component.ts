@@ -32,9 +32,6 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
   quizCategories : QuizCategory[] = [];
   quizCategoriesSubscription : Subscription | null = null;
 
-  // quizQuestions : Question[] = [];
-  // quizQuestionsSubscription : Subscription | null = null;
-
   authSubscription : Subscription | null = null;
 
   constructor(private authService: AuthService, private quizService: QuizService) {}
@@ -45,12 +42,6 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
       this.authenticated = authenticated;
     });
 
-    // this.authenticated = this.authService.isAuthenticated();
-
-    // this.userSubscription = this.authService.getUser().subscribe(user => {
-    //   this.user = user;
-    // });
-
     this.quizzesSubscription = this.quizService.getQuizzes().subscribe(quizzes => {
       this.quizzes = quizzes;
     });
@@ -59,12 +50,6 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
       this.quizCategories = quizCategories; 
     });
 
-    // this.quizQuestionsSubject = this.quizService.getAllQuestions();
-
-    // this.quizQuestionsSubscription = this.quizQuestionsSubject.subscribe(quizQuestions => {
-    //   this.quizQuestions = quizQuestions; 
-    // });
-
   }
 
   getQuestionsCount(id: string): Observable<number> {
@@ -72,13 +57,6 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
       map(questions => (questions ? questions.filter(question => question.quizId === id).length : 0))
     );
   }
-
-
-  // getQuestionsCount(id: string) {
-
-  //   return this.quizQuestions.filter(question => question.quizId === id).length;
-
-  // }
 
   getCategoryColor(id: string): Observable<string> {
     return this.quizService.getQuizCategory(id)
@@ -176,9 +154,6 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
     if (this.quizCategoriesSubscription) {
       this.quizCategoriesSubscription.unsubscribe();
     }
-    // if (this.quizQuestionsSubscription) {
-    //   this.quizQuestionsSubscription.unsubscribe();
-    // }
 
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();

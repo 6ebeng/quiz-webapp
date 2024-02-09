@@ -9,14 +9,14 @@
                     <label for="username">Username: </label><br>
                     <input class="custom-control rounded" type="text" id="username" formControlName="username"><br>
                     <ul *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.dirty">
-                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(registerForm.get('username')!)">- {{msg}}</li>
+                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(registerForm.get('username')!)">{{msg}}</li>
                     </ul>
                 </fieldset>
                 <fieldset class="form-group mt-2">
                     <label for="password">Password: </label><br>
                     <input class="custom-control rounded" type="password" id="password" formControlName="password"><br>
                     <ul *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.dirty">
-                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(registerForm.get('password')!, ['at least one number', 'at least one special character'])">- {{msg}}</li>
+                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(registerForm.get('password')!, ['at least one number', 'at least one special character'])">{{msg}}</li>
                     </ul>
                 </fieldset>
                 <fieldset class="form-group mt-2">

@@ -3,7 +3,6 @@ import { User } from '../users/user.model';
 import { BehaviorSubject} from 'rxjs';
 import { DataService } from './data.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -14,20 +13,20 @@ export class UserService {
 
   constructor(private dataService: DataService) {
 
-      this.dataService.getUsers().subscribe({
-        next: (res: { status: string, users?: User[]}) => {
-          
-          console.log("Users: ", res);
-  
-          if (res.status === 'OK') {
-            this.users = res.users!;
-            this.usersSubject.next([...this.users]);    
-          }
-        },
-        error: (error) => {
-          console.log(error);
-        }});
-  
+    this.dataService.getUsers().subscribe({
+      next: (res: { status: string, users?: User[]}) => {
+        
+        console.log("Users: ", res);
+
+        if (res.status === 'OK') {
+          this.users = res.users!;
+          this.usersSubject.next([...this.users]);    
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      }});
+
   }
 
   getUsers() {
@@ -83,11 +82,6 @@ export class UserService {
         console.log(error);
       }});
     };
-
-
-  // getUsers() {
-  //     return this.usersSubject;
-  // }
 
   getUser(id: string) {
     return this.users.find(user => user.id == id);

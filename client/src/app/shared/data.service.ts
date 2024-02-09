@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { User } from '../users/user.model';
 import { Quiz } from '../quiz/quiz.model';
 import { QuizCategory } from '../quiz/quiz-category.model';
@@ -17,10 +17,7 @@ export class DataService {
 
   constructor(private http: HttpClient) {}
 
-  // private baseURL = 'https://quiz-b1177-default-rtdb.europe-west1.firebasedatabase.app';
-
   apiUser = environment.API_URL + '/api/users';
-
   apiQuiz = environment.API_URL + '/api/quizzes';
   apiQuizResult = environment.API_URL + '/api/quiz-results';
   apiCategory = environment.API_URL + '/api/categories';
@@ -48,8 +45,6 @@ export class DataService {
   restoreUser(user: User): Observable<{ status: string, user?: User, token?: string }> {
     return this.http.post<{ status: string, user?: User, token?: string }>(this.auth + '/restore', user);
   }
-
-
 
    // users
 
@@ -166,7 +161,6 @@ export class DataService {
     return this.http.delete<{ status: string, affectedRows?: string}>(this.apiAssignedQuestion + `/${id}`);
   }
 
-  
   // quiz results
 
   getQuizResults(): Observable<{ status: string, quizResults?: QuizResults[]}> {
@@ -212,173 +206,9 @@ export class DataService {
     return this.http.post<{ status: string, result?: OpenAiResult}>(this.apiOpenAi + '/question', promptData);
   }
 
-
   generateHint(promptData: {question: string}): Observable<{ status: string, result?: OpenAiResult}> {
     return this.http.post<{ status: string, result?: OpenAiResult}>(this.apiOpenAi + '/hint', promptData);
   }
-  // getUsers(): Observable<User[]> {
-  //   return this.http.get(this.baseURL + '/user.json')
-  //     .pipe(
-  //       map(users => {         
-  //         return users ? Object.entries(users).map(([key, value]) => ({...value, id: key})) : [];
-  //       }),
-  //       catchError(this.handleError)
-  //   );
-  // }
 
-  // getUser(username: string, password: string): Observable<User | undefined> {
-  //   return this.getUsers().pipe(
-  //     map(users => users.find(user => user.username === username && user.password === password)),
-  //     catchError(this.handleError)
-  //   );
-  // }
-
-  // isRegisteredUsername(username: string): Observable<boolean> {
-  //   return this.getUsers().pipe(
-  //     map(users => {
-  //         return users.find(user => user.username === username) ? true : false;
-  //       }),
-  //     catchError(this.handleError)
-  //   );
-  // }
-
-  // addUser(user: User) {
-  //   return this.http.post(this.baseURL + '/user.json', user);
-  // }
-
-  // editUser(user: User) {
-  //   const { id, ...modUser } = user;
-  //   return this.http.patch(this.baseURL + `/user/${user.id}/` + '.json', modUser);  
-  // }
-
-
-  // quizzes
-
-  // getQuizzes(): Observable<Quiz[]> {
-  //   return this.http.get(this.baseURL + '/quiz.json')
-  //   .pipe(
-  //     map(quizzes => {
-  //       return quizzes ? Object.entries(quizzes).map(([key, value]) => ({...value, id: key})) : [];
-  //     }),
-  //     catchError(this.handleError)
-  //   );
-  // }
-
-  // addQuiz(quiz: Quiz) {
-  //   return this.http.post(this.baseURL + '/quiz.json', quiz);
-  // }
-
-  // editQuiz(quiz: Quiz) {
-  //   const { id, ...modQuiz } = quiz;
-  //   return this.http.patch(this.baseURL + `/quiz/${quiz.id}/` + '.json', modQuiz);  
-
-  // }
-
-  // deleteQuiz(id: string) {
-  //   return this.http.delete(this.baseURL + `/quiz/${id}.json`);
-
-  // }
-  // questions
-
-  // del
-
-  // getQuizQuestions(id: string): Observable<Question[]> {
-  //   return this.http.get(this.baseURL + '/question.json')
-  //     .pipe(
-  //       map(questions => {
-
-  //         let idQuestions: Question[] = [];
-  //         idQuestions = Object.entries(questions).map(([key, value]) => ({ ...value, id: key }));
-  //         console.log(idQuestions);
-          
-  //         return idQuestions.filter(question => question.quizId === id);
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
-
-  // getAllQuestions(): Observable<Question[]> {
-  //   return this.http.get(this.baseURL + '/question.json')
-  //   .pipe(
-  //     map(questions => {
-
-  //       return questions ? Object.entries(questions).map(([key, value]) => ({...value, id: key})) : [];
-
-  //     }),
-  //     catchError(this.handleError)
-  //   );
-  // }
-
-  // addQuestion(question: Question) {
-  //   return this.http.post(this.baseURL + '/question.json', question);
-  // }
-
-  // editQuestion(question: Question) {
-  //   const { id, ...modQuestion } = question;
-  //   return this.http.patch(this.baseURL + `/question/${question.id}/` + '.json', modQuestion);  
-  // }
-
-  // deleteQuestion(id: String) {
-  //   return this.http.delete(this.baseURL + `/question/${id}.json`);
-  // }
-
-  // assigned questions
-
-  // getAssignedQuestions(): Observable<AssignedQuestion[]> {
-  //   return this.http.get(this.baseURL + '/assigned-question.json')
-  //   .pipe(
-  //     map(assignedQuestions => {
-
-  //       return assignedQuestions ? Object.entries(assignedQuestions).map(([key, value]) => ({...value, id: key})) : [];
-
-  //     }),
-  //     catchError(this.handleError)
-  //   );
-  // }
-
-  // addAssignedQuestion(assignedQuestion: AssignedQuestion) {
-  //   return this.http.post(this.baseURL + '/assigned-question.json', assignedQuestion);
-  // }
-
-  // editAssignedQuestion(assignedQuestion: AssignedQuestion) {
-  //   const { id, ...modAssignedQuestion } = assignedQuestion;
-  //   return this.http.patch(this.baseURL + `/assigned-question/${assignedQuestion.id}/` + '.json', modAssignedQuestion);  
-  // }
-
-  // deleteAssignedQuestion(id: String) {
-  //   return this.http.delete(this.baseURL + `/assigned-question/${id}.json`);
-  // }
-
-  // categories
-  
-  // getQuizCategories(): Observable<QuizCategory[]> {
-  //   return this.http.get(this.baseURL + '/category.json')
-  //   .pipe(
-  //     map(categories => {
-  //       return categories ? Object.entries(categories).map(([key, value]) => ({...value, id: key})) : [];
-  //     }),
-  //     catchError(this.handleError)
-  //   );
-  // }
-
-  // addCategory(category: QuizCategory) {
-  //   return this.http.post(this.baseURL + '/category.json', category);
-  // }
-
-  // editCategory(category: QuizCategory) {
-  //   const { id, ...modCategory } = category;
-  //   return this.http.patch(this.baseURL + `/category/${category.id}/` + '.json', modCategory);  
-  // }
-
-  // deleteCategory(id: String) {
-  //   return this.http.delete(this.baseURL + `/category/${id}.json`);
-  // }
-
-
-  // results
-  // addQuizResults(quizResults: QuizResults) {
-  //   const { id, ...results } = quizResults;
-  //   return this.http.post(this.baseURL + '/quiz-results.json', results);
-  // }
 
 }

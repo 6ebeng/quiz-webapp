@@ -20,24 +20,6 @@ input.custom-control {
     box-shadow: 0 0 1px silver;
 }
 
-/* 
-.btn.btn-login {
-    background-color: silver;
-}
-
-.btn.btn-login:hover {
-    background-color: rgb(210, 210, 210);
-}
-
-.btn.btn-register {
-    border-color: silver;
-}
-
-.btn.btn-register:hover {
-    border-color: lightblue;
-    background-color: lightblue;
-} */
-
 .form-invalid, .form-message {
     color: rgb(235, 0, 0);
 }

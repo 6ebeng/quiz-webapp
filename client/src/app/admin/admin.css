@@ -3,7 +3,6 @@ h1 {
 }
 
 .btn {
-
     padding: 4px 8px;
 }
 
@@ -68,6 +67,7 @@ h1 {
     font-size: 0.8em;
 }
 
+
 .btn-sel:hover {
     border-color: rgb(188, 219, 217);
     background-color: rgb(188, 219, 217);
@@ -77,6 +77,12 @@ h1 {
     border-color: rgb(210, 210, 210);
     background-color: rgb(210, 210, 210);
 }
+
+.btn-can:focus {
+    outline: none; 
+    border-color: silver;
+}
+
 
 .btn-openai {
     border-color: silver;
@@ -100,8 +106,8 @@ button:disabled {
 }
 
 .openai-icon {
-    max-width: 16px;
-    max-height: 16px;
+    max-width: 15px;
+    max-height: 15px;
 }   
 
 .form-group {

@@ -8,7 +8,6 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class AdminDashboardComponent implements OnInit {
 
-
   constructor(private eref: ElementRef, private renderer: Renderer2, private router: Router) {}
 
   ngOnInit() {

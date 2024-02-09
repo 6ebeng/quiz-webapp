@@ -29,12 +29,24 @@ thead {
 }
 
 .table th {
+
     font-weight: 400;
     background-color: rgba(245, 245, 245, 0.5);
 }
-
 
 .table tr {
     border-bottom: 1px solid rgb(230, 230, 230);
   }
 
+
+.sortable {
+    cursor: pointer;
+}
+
+.transparent {
+    color: transparent;
+  }
+  
+.colored {
+    color: black;
+}

@@ -79,18 +79,6 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy  {
   
   }
 
-  // getCategoryTooltip(id: string): Observable<string> {
-  //   return this.quizService.getQuizzes().pipe(
-  //     map(quizzes => {
-  //       const matches = quizzes.filter(quiz => quiz.categoryId === id);
-  //       const names = matches.map(quiz => quiz.title).join(', ');
-  
-  //       return names ? 'Unable to delete. First remove from ' +  (matches.length > 1 ? 
-  //         'quizzes: ' : 'quiz: ') + names : '';
-  //     }),
-  //   );
-  // }
-
   getErrorMessages(control: AbstractControl, patterns?: string[] | null, prefix?: string): string[] {
     return this.validatorService.generateErrorMsgs(control, patterns, prefix);
   }
@@ -138,6 +126,5 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy  {
     }
 
   }
-
 
 }

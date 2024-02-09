@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { User } from 'src/app/users/user.model';
 import { UserRole} from 'src/app/users/user-role.model';
 import { Router } from '@angular/router';
@@ -38,7 +38,10 @@ export class NavbarComponent {
  }
 
   isActive() {
-    return this.router.url.includes('user') || this.router.url.includes('statistics');
+
+    const regex = /\/user\b/;
+    return  regex.test(this.router.url);
+    
   }
 
  logout(){

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataService } from '../shared/data.service';
-import { BehaviorSubject, Observable, map, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, forkJoin, map, of, switchMap } from 'rxjs';
 import { Quiz } from './quiz.model';
 import { QuizCategory } from './quiz-category.model';
 import { Question } from './question.model';
@@ -37,101 +37,48 @@ export class QuizService {
 
   constructor(private dataService : DataService) {
  
-    this.dataService.getCategories().subscribe({
-      next: (res: {status: string, categories?: QuizCategory[]}) => {
-        console.log("Categories: ", res);
-
-        if (res.status === 'OK') {
-
-          this.quizCategories = res.categories!;
-
+    forkJoin({
+      categoriesResponse: this.dataService.getCategories(),
+      quizzesResponse: this.dataService.getQuizzes()
+    }).subscribe({
+      next: ({ categoriesResponse, quizzesResponse }) => {
+        const categories = categoriesResponse.categories;
+        console.log("Categories: ", categories);
+    
+        if (categoriesResponse.status === 'OK') {
+          this.quizCategories = categories!;
+    
           this.quizCategories.forEach((category) => {
             category = this.assignCategoryColor(category);
           });
-
+    
           this.quizCategoriesSubject.next([...this.quizCategories]);
         }
-
-      },
-      error: (err) => {
-        console.error(err);
-      }});
-
-      this.quizCategoriesSubject.asObservable().pipe(
-        switchMap(() => this.dataService.getQuizzes())).subscribe({
-          next: (res: {status: string, quizzes?: Quiz[]}) => {
-          console.log("Quizzes: ", res);
-   
-          if (res.status === 'OK') {
-            this.quizzes = res.quizzes!;
-
-            this.quizzes.forEach((quiz) => {
-
-              const category = this.quizCategories.find(cat => cat.id === quiz.categoryId);
-              quiz.categoryName = category?.name;
-
-              if (!this.quizzesColorMap.has(quiz.id)) {
-
-                const color = this.logoColors[Math.floor(Math.random() * this.logoColors.length)];
-                quiz.color = color;
-              }
-            });
-      
-            this.quizzesSubject.next([...this.quizzes]);
-          }
-        },
-        error: (err) => {
-          console.error(err);
+    
+        const quizzes = quizzesResponse.quizzes;
+        console.log("Quizzes: ", quizzes);
+    
+        if (quizzesResponse.status === 'OK') {
+          this.quizzes = quizzes!;
+    
+          this.quizzes.forEach((quiz) => {
+            const category = this.quizCategories.find(cat => cat.id === quiz.categoryId);
+            quiz.categoryName = category?.name;
+    
+            if (!this.quizzesColorMap.has(quiz.id)) {
+              const color = this.logoColors[Math.floor(Math.random() * this.logoColors.length)];
+              quiz.color = color;
+            }
+          });
+    
+          this.quizzesSubject.next([...this.quizzes]);
         }
-      });
-
-      // forkJoin({
-      //   categoriesResponse: this.dataService.getCategories(),
-      //   quizzesResponse: this.quizCategoriesSubject.asObservable().pipe(
-      //     switchMap(() => this.dataService.getQuizzes())
-      //   )
-      // }).subscribe({
-      //   next: ({ categoriesResponse, quizzesResponse }) => {
-      //     // Handle categories response
-      //     const categories = categoriesResponse.categories;
-      //     console.log("Categories: ", categories);
-      
-      //     if (categoriesResponse.status === 'OK') {
-      //       this.quizCategories = categories!;
-      
-      //       this.quizCategories.forEach((category) => {
-      //         category = this.assignCategoryColor(category);
-      //       });
-      
-      //       this.quizCategoriesSubject.next([...this.quizCategories]);
-      //     }
-      
-      //     // Handle quizzes response
-      //     const quizzes = quizzesResponse.quizzes;
-      //     console.log("Quizzes: ", quizzes);
-      
-      //     if (quizzesResponse.status === 'OK') {
-      //       this.quizzes = quizzes!;
-      
-      //       this.quizzes.forEach((quiz) => {
-      //         const category = this.quizCategories.find(cat => cat.id === quiz.categoryId);
-      //         quiz.categoryName = category?.name;
-      
-      //         if (!this.quizzesColorMap.has(quiz.id)) {
-      //           const color = this.logoColors[Math.floor(Math.random() * this.logoColors.length)];
-      //           quiz.color = color;
-      //         }
-      //       });
-      
-      //       this.quizzesSubject.next([...this.quizzes]);
-      //     }
-      //   },
-      //   error: (error) => {
-      //     console.error(error);
-      //   }
-      // });
-
-
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+    
 
       this.dataService.getQuizResults().subscribe({
         next: (res: {status: string, quizResults?: QuizResults[]}) => {
@@ -187,81 +134,31 @@ export class QuizService {
       map(quiz => quiz.find(quiz => quiz.id === id) || null));
   }
 
+addQuiz(quiz: Quiz): Observable<string> {
 
-  // getQuiz(id: string): Observable<Quiz | undefined> {
-  //   return new Observable((observer) => {
-  //     this.dataService.getCategory(id).subscribe({
-  //       next: (res: { status: string, quiz?: Quiz }) => {
-  //         console.log(res);
-  
-  //         if (res.status === 'OK') {
-  //           observer.next(res.quiz);
-  //           observer.complete();
-  //         } else {
-  //           observer.next(undefined);
-  //           observer.complete();
-  //         }
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //         observer.next(undefined);
-  //         observer.complete();
-  //       },
-  //     });
-  //   });
-  // }
+  return this.dataService.addQuiz(quiz).pipe(
+    map((res: { status: string, insertId?: string }) => {
+      console.log("Added: ", res);
 
+      if (res.status === 'OK' && res.insertId) {
+        const category = this.quizCategories.find(c => c.id === quiz.categoryId);
+        quiz.categoryName = category?.name;
 
-  addQuiz(quiz: Quiz) {
+        this.quizzes.push({ ...quiz, id: res.insertId });
+        this.quizzesSubject.next([...this.quizzes]);
 
-    console.log(quiz);
+        return res.insertId;
+      } else {
+        throw new Error("Failed to add quiz");
+      }
+    })
+  );
+}
 
-    this.dataService.addQuiz(quiz).subscribe({
-      next: (res:{status: string, insertId?: string }) => {
-        console.log("Added: ", res);
-
-        if (res.status === 'OK') {
-
-          const category = this.quizCategories.find(c => c.id === quiz.categoryId);
-          quiz.categoryName = category?.name;
-
-          this.quizzes.push({ ...quiz, id: res.insertId! });
-          this.quizzesSubject.next([...this.quizzes]);
-
-        }
-    },
-      error: (error) => {
-        console.log(error);
-  
-      }});
-
-  };
-
-
-  // addQuiz(quiz: Quiz): Observable<string> {
-
-  //   console.log(quiz);
-
-  //   return this.dataService.addQuiz(quiz).pipe(
-  //     map((res: any) => {
-  //      console.log(res);
-  //       const newId = (res as { name: string }).name;
-
-  //       const category = this.quizCategories.find(c => c.id === quiz.categoryId);
-  //       quiz.categoryName = category?.name;
-
-  //       this.quizzes.push({ ...quiz, id: newId });
-  //       this.quizzesSubject.next([...this.quizzes]);
-
-  //       return newId;
-  //     })
-  //   );
-  // }
-
-  editQuiz(quiz: Quiz) {
+   editQuiz(quiz: Quiz): Observable<string> {
     
-    this.dataService.editQuiz(quiz).subscribe({
-      next: (res: {status: string, changedRows?: string }) => {
+   return this.dataService.editQuiz(quiz).pipe(
+      map((res: {status: string, changedRows?: string }) => {
         console.log("Edited: ", res);
 
         if (res.status === 'OK') {
@@ -271,12 +168,14 @@ export class QuizService {
 
           this.quizzes[this.quizzes.findIndex(q => q.id == quiz.id)] = quiz;
           this.quizzesSubject.next([...this.quizzes]);
-        }
-      },
-      error: (err) => {
-        console.log(err);
-      }});
-   }
+
+      return 'OK';
+    } else {
+      throw new Error("Failed to add quiz");
+    }
+  })
+  );
+}
 
   deleteQuiz(id: string) {
 
@@ -307,30 +206,6 @@ export class QuizService {
       map(quizCategory => quizCategory.find(quizCategory => quizCategory.id === id) || null));
 
   }
-
-  // getQuizCategory(id: string): Observable<QuizCategory | undefined> {
-  //   return new Observable((observer) => {
-  //     this.dataService.getCategory(id).subscribe({
-  //       next: (res: { status: string, category?: QuizCategory }) => {
-  //         console.log(res);
-  
-  //         if (res.status === 'OK') {
-  //           observer.next(res.category);
-  //           observer.complete();
-  //         } else {
-  //           observer.next(undefined);
-  //           observer.complete();
-  //         }
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //         observer.next(undefined);
-  //         observer.complete();
-  //       },
-  //     });
-  //   });
-  // }
-
 
   addCategory(category: QuizCategory) {
 
@@ -391,11 +266,7 @@ export class QuizService {
     return this.quizQuestionsSubject;
   }
 
-  // getQuizQuestions(id: string): Observable<Question[]> {
-
-  //   return this.dataService.getQuizQuestions(id);
-  // }
-
+ 
   addQuestion(question: Question): Observable<Question> {
 
     console.log(question);
@@ -558,6 +429,5 @@ export class QuizService {
     
     return category;
   }
-  
 
 }

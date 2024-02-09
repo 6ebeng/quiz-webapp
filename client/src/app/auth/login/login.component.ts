@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
 import { ValidatorService } from 'src/app/shared/validator.service';
 
@@ -11,12 +10,7 @@ import { ValidatorService } from 'src/app/shared/validator.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  // authSubscription : Subscription | null = null;
-  // private authenticated : boolean = false;
-
-
   loginForm!: FormGroup;
-  // formInvalid : boolean = false;
   message : string = '';
 
   constructor(private authService : AuthService, private fb : FormBuilder, private validatorService: ValidatorService) {}
@@ -32,29 +26,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.message = msg;
     });
 
-    // this.authSubscription = this.authService.authStatus.subscribe(authenticated => {
-    //   this.authenticated = authenticated;
-    // });
-
-    // this.authenticated = this.authService.isAuthenticated();
-
-
-    // if (this.authenticated) {
-
-    //     this.router.navigate(['/']);
-    // }
-
   }
 
   onLogin() {
 
     if (this.loginForm.valid) {
-      // this.formInvalid = false;
       this.authService.loginUser({username: this.loginForm.value.username, password: this.loginForm.value.password});
     }
-    // else {
-    //   this.formInvalid = true;
-    // }
 
   }
 
@@ -66,9 +44,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
 
-    // if (this.authSubscription) {
-    //   this.authSubscription.unsubscribe();
-    // }
   }
 
 }

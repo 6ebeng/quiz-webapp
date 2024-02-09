@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import {AuthService} from "./shared/auth.service";
-import { Observable, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,6 @@ export class InvAuthGuard {
     constructor(private authService: AuthService, private router: Router) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-
-      console.log(this.authService.isAuthenticated());
-      
                
         if (this.authService.isAuthenticated()) {           
             return false;

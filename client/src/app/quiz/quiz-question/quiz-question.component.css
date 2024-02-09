@@ -2,17 +2,6 @@
     font-size: 1em;
 }
 
-.btn {
-    font-size: 0.9em;
-    border: 1px solid silver;
-    background-color: whitesmoke;
-}
-
-.btn:hover {
-    background-color: rgb(220, 220, 220);
-}
-
-
 input[type="radio"] {
     border: 2px solid lightgray;
 
@@ -35,6 +24,22 @@ input[type="radio"]:checked {
     min-height: 50px;
 }
 
-.waiting {
-    font-size: 0.9em;
+.btn {
+    padding: 4px 8px;
+    font-size: 0.8em;
+    border-color: silver;
 }
+
+.btn:focus {
+    outline: none; 
+    border-color: silver; 
+}
+
+ .btn:hover {
+    background-color: rgb(220, 220, 220);
+}
+
+.openai-icon {
+    max-width: 15px;
+    max-height: 15px;
+}   

@@ -86,7 +86,7 @@
                 <label>Time limit:</label>
                 <div class="d-flex">
                     <div class="col-10">
-                        <input class="form-control" type="number" min="0" max="60" formControlName="timelimit"/>
+                        <input class="form-control" type="number" min="0" max="60" formControlName="timelimit" placeholder="0"/>
                     </div>
                 </div>
                 <ul *ngIf="quizForm.get('timelimit')?.invalid && quizForm.get('timelimit')?.touched">
@@ -105,7 +105,7 @@
                         </select>
                     </div>
                     <div class="col-2 d-flex justify-content-start align-items-center">
-                        <button *ngIf="i > 2" class="btn btn-sel btn-can h-90 ms-2" type="button" (click)="removeQuestion(i)">X</button>
+                        <button class="btn btn-sel btn-can h-90 ms-2" type="button" (click)="removeQuestion(i)">X</button>
                     </div>
                 </div> 
                 <ul *ngIf="getArrayControls().at(i)?.invalid && getArrayControls().at(i)?.touched">

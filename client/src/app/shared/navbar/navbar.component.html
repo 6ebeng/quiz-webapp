@@ -18,7 +18,7 @@
             </ul>
             <ul class="navbar-nav mt-2 mb-2">
                 <div class="d-flex align-items-center">
-                    <img *ngIf="user.imageUrl" class="profile-img img-fluid" [src]="imgDir + user.imageUrl" alt="profile img">
+                    <img *ngIf="authenticated && user.imageUrl" class="profile-img img-fluid" [src]="imgDir + user.imageUrl" alt="profile img">
                 <li *ngIf="authenticated" class="nav-item dropdown ms-lg-2">
                     <a class="nav-link std-link dropdown-toggle" [ngClass]="isActive() ? 'active' : ''" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i *ngIf="!user.imageUrl" class="fas fa-user me-3"></i>
@@ -26,7 +26,6 @@
                     </a>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" [routerLink]="['user']">Profile</a></li>
-                      <li><a class="dropdown-item" href="#">Statistics</a></li>
                       <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
                     </ul>
                 </li>

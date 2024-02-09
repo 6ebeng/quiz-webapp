@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Question } from '../question.model';
-import { QuizResults } from '../quiz-results.model';
-import { QuizService } from '../quiz.service';
 import { DataService } from 'src/app/shared/data.service';
 import { OpenAiResult } from '../openai-result.model';
 
@@ -22,7 +20,7 @@ export class QuizQuestionComponent {
   waiting: boolean = false;
   hint : string = '';
 
-  constructor(private quizService: QuizService, private dataService: DataService){}
+  constructor(private dataService: DataService){}
 
   onAnswerChange(answer: string) {
 
@@ -32,10 +30,9 @@ export class QuizQuestionComponent {
   onAnswer() {
 
     if (this.selectedAnswer) {
-  
       this.answerEvent.emit(this.selectedAnswer);
-  
     }
+    this.hint = '';
   }
 
   generateHint() {
