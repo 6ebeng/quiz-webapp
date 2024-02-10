@@ -225,8 +225,6 @@ export class AdminQuizzesComponent implements OnInit, OnDestroy {
   getQuestionsCount(id: string): Observable<number> {
     return this.quizService.assignedQuestionsSubject.pipe(
       map(questions => {
-
-        console.log("questionsCnt", id, questions);
         
         return questions.filter(q => q.quizId === id).length;
       })
@@ -238,8 +236,6 @@ export class AdminQuizzesComponent implements OnInit, OnDestroy {
     return this.quizService.getQuizCategory(id)
       .pipe(
         map(category => {
-
-          console.log("getCatImg", id, environment.API_URL);
           
           const path : string = environment.API_URL + '/assets/img/';
           return category?.image ? path + "light-" + category.image : "";

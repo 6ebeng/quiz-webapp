@@ -45,8 +45,6 @@ export class LeaderboardComponent {
         
         this.users = usersResponse;
         this.quizResults = quizResultsResponse;
-
-        console.log("leaderboard:", this.users, this.quizResults);
     
         this.users.forEach(user => {
           const userQuizResults = this.quizResults.filter(result => result.userId === user.id);

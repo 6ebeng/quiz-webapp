@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
         console.log(res);
       } 
       else {
-        this.router.navigate(['/auth/login'])
+        this.router.navigate(['/'])
       }
     },
     error: (error) => {
