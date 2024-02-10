@@ -43,6 +43,7 @@ export class RegisterComponent implements OnInit {
   onRegister(){
 
     const {repeatedPassword, ...user} = this.registerForm.value;
+    user.role = 'user';
     this.authService.registerUser(user);
   }
 
