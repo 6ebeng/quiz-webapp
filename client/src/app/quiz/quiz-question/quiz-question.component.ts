@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Question } from '../question.model';
 import { DataService } from 'src/app/shared/data.service';
 import { OpenAiResult } from '../openai-result.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-quiz-question',
@@ -19,6 +20,7 @@ export class QuizQuestionComponent {
 
   waiting: boolean = false;
   hint : string = '';
+  openAiImg : string = environment.API_URL + '/assets/img/' + 'openai.png';
 
   constructor(private dataService: DataService){}
 

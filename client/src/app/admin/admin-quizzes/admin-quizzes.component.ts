@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subscription, map, switchMap, take } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { AssignedQuestion } from 'src/app/quiz/assigned-question.model';
 import { Question } from 'src/app/quiz/question.model';
 import { QuizCategory } from 'src/app/quiz/quiz-category.model';
 import { Quiz } from 'src/app/quiz/quiz.model';
 import { QuizService } from 'src/app/quiz/quiz.service';
 import { ValidatorService } from 'src/app/shared/validator.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-admin-quizzes',
@@ -173,20 +174,6 @@ export class AdminQuizzesComponent implements OnInit, OnDestroy {
 
       const {id, ...quizMod} = quiz;
 
-      this.quizService.addQuiz(quizMod);
-
-      // this.quizService.quizzesSubject.pipe(take(1)).subscribe(quizzes => {
-      //   const addedQuiz = quizzes.reduce((prevTs, curTs) => {
-      //     return prevTs > curTs ? prevTs : curTs;
-      //   });
-
-      //   if (addedQuiz) {
-      //     questionsIds.forEach((questionId: string) => {
-      //       this.quizService.addAssignedQuestion({ quizId: addedQuiz.id, questionId: questionId } as AssignedQuestion);
-      //     });
-      //   }
-      // });
-
       this.quizService.addQuiz(quizMod).subscribe({
         next: (id: string) => {
       
@@ -238,6 +225,9 @@ export class AdminQuizzesComponent implements OnInit, OnDestroy {
   getQuestionsCount(id: string): Observable<number> {
     return this.quizService.assignedQuestionsSubject.pipe(
       map(questions => {
+
+        console.log("questionsCnt", id, questions);
+        
         return questions.filter(q => q.quizId === id).length;
       })
     );
@@ -248,7 +238,10 @@ export class AdminQuizzesComponent implements OnInit, OnDestroy {
     return this.quizService.getQuizCategory(id)
       .pipe(
         map(category => {
-          const path : string = "../../../assets/";
+
+          console.log("getCatImg", id, environment.API_URL);
+          
+          const path : string = environment.API_URL + '/assets/img/';
           return category?.image ? path + "light-" + category.image : "";
         })
       )

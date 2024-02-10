@@ -21,8 +21,8 @@ export class NavbarComponent {
   user: User = new User();
   userSubscription : Subscription | null = null;
 
-  imgDir : string = environment.API_URL + '/uploads/';
-  defaultImg : string = '../../../assets/avatar.png';
+  imgDir : string = environment.API_URL + '/assets/uploads/';
+  defaultImg : string = environment.API_URL + '/assets/img/' + 'avatar.png';
   
   constructor(private authService: AuthService, private router: Router) {}
 

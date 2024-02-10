@@ -9,6 +9,7 @@ import { Quiz } from 'src/app/quiz/quiz.model';
 import { QuizService } from 'src/app/quiz/quiz.service';
 import { DataService } from 'src/app/shared/data.service';
 import { ValidatorService } from 'src/app/shared/validator.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-admin-questions',
@@ -39,6 +40,8 @@ export class AdminQuestionsComponent implements OnInit, OnDestroy {
   waiting: boolean = false;
   aiCategory : string = '';
   aiAnswers : number = 3;
+
+  openAiImg : string = environment.API_URL + '/assets/img/' + 'openai.png';
 
   constructor(private fb : FormBuilder, private quizService: QuizService, private dataService: DataService, private validatorService: ValidatorService) {}
 

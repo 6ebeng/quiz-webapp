@@ -60,7 +60,7 @@
         <i class="fas fa-plus"></i> Add
       </button>
       <button class="btn btn-openai ms-2" [ngClass]="openAi && !mode ? 'btn-openai-toggle' : ''" (click)="toggleOpenAi()">
-        <img class="openai-icon" src="assets/openai.png"> OpenAI
+        <img class="openai-icon" [src]="openAiImg"> OpenAI
       </button>
       <div *ngIf="openAi && !mode" class="col-6 mt-4">
           <label>Category: </label>

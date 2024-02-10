@@ -23,8 +23,8 @@ export class LeaderboardComponent {
   quizResults : QuizResults[] = [];
   quizResultsSubscription : Subscription | null = null;
 
-  imgDir : string = environment.API_URL + '/uploads/';
-  defaultImg : string = '../../../assets/avatar.png';
+  imgDir : string = environment.API_URL + '/assets/uploads/';
+  defaultImg : string = environment.API_URL + '/assets/img/' + 'avatar.png';
 
   sortCol: string = '';
   sortUp: boolean = true;
@@ -42,8 +42,11 @@ export class LeaderboardComponent {
       quizResultsResponse: this.quizService.getQuizResults().pipe(skipWhile(quizResults => quizResults.length === 0), take(1))
     }).subscribe({
       next: ({ usersResponse, quizResultsResponse }) => {
+        
         this.users = usersResponse;
         this.quizResults = quizResultsResponse;
+
+        console.log("leaderboard:", this.users, this.quizResults);
     
         this.users.forEach(user => {
           const userQuizResults = this.quizResults.filter(result => result.userId === user.id);

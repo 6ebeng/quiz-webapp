@@ -1,11 +1,11 @@
 import { Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import { BehaviorSubject, Observable, Subscription, filter, map } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { Quiz } from '../quiz.model';
 import { User } from 'src/app/users/user.model';
 import { AuthService } from 'src/app/shared/auth.service';
 import { QuizService } from '../quiz.service';
 import { QuizCategory } from '../quiz-category.model';
-import { Question } from '../question.model';
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-quiz-dashboard',
@@ -69,7 +69,7 @@ export class QuizDashboardComponent implements OnInit, OnDestroy {
     return this.quizService.getQuizCategory(id)
       .pipe(
         map(category => {
-          const path : string = "../../../assets/";
+          const path : string = environment.API_URL + '/assets/img/';
           return category?.image ? path + category.image : "";
         })
       )

@@ -22,8 +22,8 @@ export class ProfileComponent {
   profileForm! : FormGroup;
   edit: boolean = false;
 
-  imgDir : string = environment.API_URL + '/uploads/';
-  defaultImg : string = '../../../assets/avatar.png';
+  imgDir : string = environment.API_URL + '/assets/uploads/';
+  defaultImg : string = environment.API_URL + '/assets/img/' + 'avatar.png';
   maxSize: boolean = false;
 
   @ViewChild('fileInput') fileInput: any;
