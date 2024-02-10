@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { User } from 'src/app/users/user.model';
 import { UserRole} from 'src/app/users/user-role.model';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',

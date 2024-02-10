@@ -7,7 +7,7 @@ import { QuizCategory } from 'src/app/quiz/quiz-category.model';
 import { Quiz } from 'src/app/quiz/quiz.model';
 import { QuizService } from 'src/app/quiz/quiz.service';
 import { ValidatorService } from 'src/app/shared/validator.service';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-admin-quizzes',

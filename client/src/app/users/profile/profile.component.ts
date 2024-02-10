@@ -4,7 +4,7 @@ import { User } from '../user.model';
 import { AuthService } from 'src/app/shared/auth.service';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidatorService } from 'src/app/shared/validator.service';
-import {environment} from "../../../environments/environment.development";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-profile',

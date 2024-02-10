@@ -5,7 +5,7 @@ import { QuizService } from 'src/app/quiz/quiz.service';
 import { AuthService } from 'src/app/shared/auth.service';
 import { UserService } from 'src/app/shared/user.service';
 import { User } from 'src/app/users/user.model';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-leaderboard',
