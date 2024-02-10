@@ -9,7 +9,7 @@ import { Quiz } from 'src/app/quiz/quiz.model';
 import { QuizService } from 'src/app/quiz/quiz.service';
 import { DataService } from 'src/app/shared/data.service';
 import { ValidatorService } from 'src/app/shared/validator.service';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-admin-questions',

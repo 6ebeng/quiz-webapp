@@ -7,7 +7,7 @@ import { QuizCategory } from '../quiz/quiz-category.model';
 import { Question } from '../quiz/question.model';
 import { AssignedQuestion } from '../quiz/assigned-question.model';
 import { QuizResults } from '../quiz/quiz-results.model';
-import {environment} from "../../environments/environment";
+import {environment} from "../../environments/environment.development";
 import { OpenAiResult } from '../quiz/openai-result.model';
 
 @Injectable({
