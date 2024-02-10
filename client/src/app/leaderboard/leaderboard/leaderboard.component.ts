@@ -14,9 +14,6 @@ import { environment } from 'src/environments/environment';
 })
 export class LeaderboardComponent {
 
-  user: User = new User();
-  userSubscription : Subscription | null = null;
-
   users: User[] = [];
   usersSubscription : Subscription | null = null;
 
@@ -29,13 +26,9 @@ export class LeaderboardComponent {
   sortCol: string = '';
   sortUp: boolean = true;
 
-  constructor(private authService: AuthService, private userService: UserService, private quizService: QuizService){}
+  constructor(private userService: UserService, private quizService: QuizService){}
 
   ngOnInit(): void {
-
-    this.userSubscription = this.authService.getUser().subscribe(user => {
-      this.user = user;
-    });
 
     forkJoin({
       usersResponse: this.userService.getUsers().pipe(skipWhile(users => users.length === 0), take(1)),
@@ -91,10 +84,6 @@ export class LeaderboardComponent {
   }
 
   ngOnDestroy() {
-
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
 
     if (this.usersSubscription) {
       this.usersSubscription.unsubscribe();
