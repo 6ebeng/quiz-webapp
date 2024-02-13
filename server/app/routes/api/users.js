@@ -8,7 +8,7 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole, bcrypt, path) =
     const userRouter = express.Router();
 
     userRouter.route('/')
-    .get(requireAuth, async function(req, res) {
+    .get(async function(req, res) {
 
         try {
             let data;
