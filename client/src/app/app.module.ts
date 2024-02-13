@@ -13,6 +13,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CustomPreloadingStrategy } from './preloading-strategy';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     LeaderboardModule
 
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}, CustomPreloadingStrategy],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
