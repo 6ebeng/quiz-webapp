@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {secret} = require('../../../config');
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}`});
 
 const requireAuth = (req, res, next) => {
 
@@ -17,7 +17,7 @@ const requireAuth = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, secret);
+    const decoded = jwt.verify(token, process.env.SECRET);
     req.decoded = decoded;
     next();
   } 
