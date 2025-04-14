@@ -75,7 +75,7 @@ function initServer(database) {
     });
 
     app.get('*', function(req, res) {
-        res.sendFile(path.join(__dirname + '/public/app/index.html'));
+        res.sendFile(path.join(__dirname + '/public/dist/browser/index.html'));
     });
 
     app.listen(port);
