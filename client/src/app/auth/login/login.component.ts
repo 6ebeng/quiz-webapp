@@ -4,9 +4,10 @@ import { AuthService } from '../../shared/auth.service';
 import { ValidatorService } from 'src/app/shared/validator.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['../auth.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['../auth.css'],
+    standalone: false
 })
 export class LoginComponent implements OnInit, OnDestroy {
 

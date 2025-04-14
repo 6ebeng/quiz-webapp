@@ -9,9 +9,10 @@ import { AuthService } from 'src/app/shared/auth.service';
 import { QuizResults } from '../quiz-results.model';
 
 @Component({
-  selector: 'app-quiz-detail',
-  templateUrl: './quiz-detail.component.html',
-  styleUrls: ['./quiz-detail.component.css']
+    selector: 'app-quiz-detail',
+    templateUrl: './quiz-detail.component.html',
+    styleUrls: ['./quiz-detail.component.css'],
+    standalone: false
 })
 export class QuizDetailComponent implements OnInit, OnDestroy {
 

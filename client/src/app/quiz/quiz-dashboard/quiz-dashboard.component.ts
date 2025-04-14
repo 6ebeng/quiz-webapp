@@ -8,10 +8,10 @@ import { QuizCategory } from '../quiz-category.model';
 import {environment} from "../../../environments/environment";
 
 @Component({
-  selector: 'app-quiz-dashboard',
-  templateUrl: './quiz-dashboard.component.html',
-  styleUrls: ['./quiz-dashboard.component.css']
-
+    selector: 'app-quiz-dashboard',
+    templateUrl: './quiz-dashboard.component.html',
+    styleUrls: ['./quiz-dashboard.component.css'],
+    standalone: false
 })
 export class QuizDashboardComponent implements OnInit, OnDestroy {
 

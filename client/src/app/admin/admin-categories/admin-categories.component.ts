@@ -7,9 +7,10 @@ import { QuizService } from 'src/app/quiz/quiz.service';
 import { ValidatorService } from 'src/app/shared/validator.service';
 
 @Component({
-  selector: 'app-admin-categories',
-  templateUrl: './admin-categories.component.html',
-  styleUrls: ['../admin.css']
+    selector: 'app-admin-categories',
+    templateUrl: './admin-categories.component.html',
+    styleUrls: ['../admin.css'],
+    standalone: false
 })
 export class AdminCategoriesComponent implements OnInit, OnDestroy  {
 

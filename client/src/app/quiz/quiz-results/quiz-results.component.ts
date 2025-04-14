@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { QuizResults } from '../quiz-results.model';
 
 @Component({
-  selector: 'app-quiz-results',
-  templateUrl: './quiz-results.component.html',
-  styleUrls: ['./quiz-results.component.css']
+    selector: 'app-quiz-results',
+    templateUrl: './quiz-results.component.html',
+    styleUrls: ['./quiz-results.component.css'],
+    standalone: false
 })
 export class QuizResultsComponent {
 

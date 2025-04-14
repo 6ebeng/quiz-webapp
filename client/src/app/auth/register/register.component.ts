@@ -4,9 +4,10 @@ import { AuthService } from 'src/app/shared/auth.service';
 import { ValidatorService } from 'src/app/shared/validator.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['../auth.css']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['../auth.css'],
+    standalone: false
 })
 export class RegisterComponent implements OnInit {
 

@@ -8,9 +8,10 @@ import { UserRole } from 'src/app/users/user-role.model';
 import { User } from 'src/app/users/user.model';
 
 @Component({
-  selector: 'app-admin-users',
-  templateUrl: './admin-users.component.html',
-  styleUrls: ['../admin.css']
+    selector: 'app-admin-users',
+    templateUrl: './admin-users.component.html',
+    styleUrls: ['../admin.css'],
+    standalone: false
 })
 export class AdminUsersComponent implements OnInit, OnDestroy {
 

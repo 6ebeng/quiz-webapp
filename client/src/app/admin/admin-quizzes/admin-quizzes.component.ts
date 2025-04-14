@@ -10,9 +10,10 @@ import { ValidatorService } from 'src/app/shared/validator.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-admin-quizzes',
-  templateUrl: './admin-quizzes.component.html',
-  styleUrls: ['./admin-quizzes.component.css']
+    selector: 'app-admin-quizzes',
+    templateUrl: './admin-quizzes.component.html',
+    styleUrls: ['./admin-quizzes.component.css'],
+    standalone: false
 })
 export class AdminQuizzesComponent implements OnInit, OnDestroy {
 

@@ -5,9 +5,10 @@ import { OpenAiResult } from '../openai-result.model';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-quiz-question',
-  templateUrl: './quiz-question.component.html',
-  styleUrls: ['./quiz-question.component.css']
+    selector: 'app-quiz-question',
+    templateUrl: './quiz-question.component.html',
+    styleUrls: ['./quiz-question.component.css'],
+    standalone: false
 })
 export class QuizQuestionComponent {
 

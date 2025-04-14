@@ -8,9 +8,10 @@ import { User } from 'src/app/users/user.model';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-leaderboard',
-  templateUrl: './leaderboard.component.html',
-  styleUrls: ['./leaderboard.component.css']
+    selector: 'app-leaderboard',
+    templateUrl: './leaderboard.component.html',
+    styleUrls: ['./leaderboard.component.css'],
+    standalone: false
 })
 export class LeaderboardComponent {
 
