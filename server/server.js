@@ -7,16 +7,16 @@ const bcrypt = require('bcrypt');
 const {MongoClient, ObjectId} = require('mongodb');
 const requireAuth = require('./app/routes/common/requireAuth');
 const checkRole = require('./app/routes/common/checkRole');
-// require('dotenv').config({ path: `.env.${process.env.NODE_ENV}`});
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}`});
 
 const port = process.env.PORT;
 
 async function init() {
 
     try {
-        const client = new MongoClient(process.env.DB_CONNECTION_STRING);
-        await client.connect();
-        const database = client.db('quizdb');
+        const dbClient = new MongoClient(process.env.DB_CONNECTION_STRING);
+        await dbClient.connect();
+        const database = dbClient.db('quizdb');
         initServer(database);
 
     } catch (err) {
@@ -26,22 +26,25 @@ async function init() {
 
 function initServer(database) {
 
-    app.use((req, res, next) => {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-type, Authorization');
-        if (req.method === "OPTIONS") {
-            return res.status(200).end();
-        }
-        next();
-    });
+    app.use(morgan('dev'));
+    app.use(express.static(path.join(__dirname, '/public/dist')));
+
+    if (process.env.NODE_ENV != 'production') {
+        
+        app.use((req, res, next) => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-type, Authorization');
+            if (req.method === "OPTIONS") {
+                return res.status(200).end();
+            }
+            next();
+        });
+    }
+
 
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
-
-    app.use(express.static(path.join(__dirname, '/public/dist')));
-
-    app.use(morgan('dev'));
 
     const authRouter = require('./app/routes/auth/auth')(express, database, requireAuth, jwt, bcrypt);
     app.use('/auth', authRouter);
