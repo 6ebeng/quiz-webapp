@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const {MongoClient, ObjectId} = require('mongodb');
 const requireAuth = require('./app/routes/common/requireAuth');
 const checkRole = require('./app/routes/common/checkRole');
-require('dotenv').config({ path: `.env.${process.env.NODE_ENV}`});
+// require('dotenv').config({ path: `.env.${process.env.NODE_ENV}`});
 
 const port = process.env.PORT;
 
