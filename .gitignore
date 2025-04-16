@@ -1,9 +1,9 @@
 .angular/
 .vscode/
 node_modules/
+public/
 test/
-dist/
-tmp/
 
+tmp/
 .env*
 *.log
