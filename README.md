@@ -21,7 +21,7 @@ Some of the requirements for this assignment were:
 
 **Features**
 
-I have implemented all of the required features and a bit more. The app is fully functional and has full administration capabilities. The app uses the OpenAI API to help confused quizzers find the right answer and assists admins with generating questions. It is deployed on the Azure platform.
+I've implemented all the requirements above and added some extra features. The app is fully functional and includes complete administration capabilities. It also integrates the OpenAI API to assist confused quizzers in finding the right answers and to help admins generate new questions.
 
 Additional trivial features:
 - visitors can view quizzes and the leaderboard even if they are not registered (I didn't want to force registration)
@@ -41,4 +41,4 @@ Additional trivial features:
 **Try it out**
 
 - online: https://kveez.azurewebsites.net/
-- locally: install Angular and Node.js dependencies with "npm install", compile the Angular code with "ng build --configuration=development", add .env files and start the Node.js server with "npm run devel" (warning - OpenAI API key isn't free, so you have to get your own).
+- locally: install Angular and Node.js dependencies with "npm install", compile the Angular code with "ng build --configuration=development", add .env files and start the Node.js server with "npm run dev" (note: quiz hints won't work without OpenAI API key).
