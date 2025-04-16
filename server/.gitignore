@@ -3,4 +3,3 @@ test/
 
 .env*
 *.log
-config.js
