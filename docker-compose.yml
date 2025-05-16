@@ -10,6 +10,7 @@ services:
       - /usr/src/app/node_modules
     environment: # Add this section
       - CHOKIDAR_USEPOLLING=true
+      - NODE_ENV=development
     depends_on:
       - backend
     restart: unless-stopped
