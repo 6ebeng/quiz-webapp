@@ -20,7 +20,7 @@ export class LeaderboardComponent {
 	quizResultsSubscription: Subscription | null = null;
 
 	imgDir: string = environment.API_URL + '/assets/uploads/';
-	defaultImg: string = environment.API_URL + '/assets/img/' + 'avatar.png';
+	defaultImg: string = '/assets/img/' + 'avatar.png';
 
 	sortCol: string = '';
 	sortUp: boolean = true;

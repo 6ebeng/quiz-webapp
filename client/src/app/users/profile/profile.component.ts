@@ -23,7 +23,7 @@ export class ProfileComponent {
 	edit: boolean = false;
 
 	imgDir: string = environment.API_URL + '/assets/uploads/';
-	defaultImg: string = environment.API_URL + '/assets/img/' + 'avatar.png';
+	defaultImg: string = '/assets/img/' + 'avatar.png';
 	maxSize: boolean = false;
 
 	@ViewChild('fileInput') fileInput: any;
