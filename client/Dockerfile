@@ -31,7 +31,7 @@ RUN rm -rf /usr/share/nginx/html/*
 
 # Copy the built Angular app from the 'build' stage to Nginx's web root
 # Adjust 'dist/kveez' if your angular.json 'outputPath' is different (e.g., 'dist/projekt')
-COPY --from=build /usr/src/app/dist/kveez /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/projekt /usr/share/nginx/html
 
 # Copy the custom Nginx configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
