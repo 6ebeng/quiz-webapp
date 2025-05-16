@@ -68,7 +68,9 @@
 							"buildTarget": "projekt:build:production"
 						},
 						"development": {
-							"buildTarget": "projekt:build:development"
+							"buildTarget": "projekt:build:development",
+							"host": "0.0.0.0",
+							"poll": 1000
 						}
 					},
 					"defaultConfiguration": "development"
