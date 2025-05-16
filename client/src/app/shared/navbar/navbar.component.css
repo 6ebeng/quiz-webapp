@@ -7,7 +7,7 @@
 }
 
 .navbar-logo {
-    height: 30px; /* Adjust the height as needed */
+    height: 50px; /* Adjust the height as needed */
     width: auto; /* This will maintain the aspect ratio */
     margin-right: 8px; /* Add some space if you're keeping text next to the logo */
     vertical-align: middle; /* Helps align the logo nicely if there's adjacent text */

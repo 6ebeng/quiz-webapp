@@ -1,129 +1,114 @@
 const secret = process.env.SECRET;
 
 module.exports = (express, db, requireAuth, jwt, bcrypt) => {
+	const authRouter = express.Router();
 
-    const authRouter = express.Router();
+	authRouter.route('/login').post(async function (req, res) {
+		console.log(req.body);
 
-    authRouter.route('/login').post(async function(req,res){
+		let user = await checkUser(db, res, req.body.username);
 
-        console.log(req.body);
+		if (!user) {
+			res.json({ status: 'NOT OK', description: "Username doesn't exist" });
+		} else {
+			console.log(user.password, req.body.password);
 
-        let user = await checkUser(db, res, req.body.username);
+			const validPass = await bcrypt.compare(req.body.password, user.password);
 
-        if (!user) {
+			if (validPass) {
+				const { _id, ...u } = user;
+				user = { id: _id, ...u };
 
-            res.json({ status: 'NOT OK', description:'Username doesn\'t exist' }); 
-        }
-        else {
+				const token = jwt.sign({ ...user }, secret, {
+					expiresIn: '1h',
+				});
+				res.json({
+					status: 'OK',
+					user: user,
+					token: token,
+				});
+			} else {
+				res.json({ status: 'NOT OK', description: 'Wrong password' });
+			}
+		}
+	});
 
-            console.log(user.password, req.body.password);
+	authRouter.route('/register').post(async function (req, res) {
+		console.log(req.body);
 
-            const validPass = await bcrypt.compare(req.body.password, user.password);
+		const user = await checkUser(db, res, req.body.username);
 
-            if (validPass) {
+		if (user) {
+			res.json({ status: 'NOT OK', description: 'Username already exists' });
+		} else {
+			const hash = await bcrypt.hash(req.body.password, 10);
 
-                const { _id, ...u } = user;
-                user = { id: _id, ...u };
+			const user = {
+				username: req.body.username,
+				password: hash,
+				name: req.body.name,
+				surname: req.body.surname,
+				age: req.body.age,
+				email: req.body.email,
+				role: req.body.role,
+			};
 
-                const token = jwt.sign({...user}, secret, {
-                    expiresIn: '1h'
-                });
-                res.json({
-                    status: 'OK',
-                    user: user,
-                    token: token
-                });
+			try {
+				const data = await db.collection('users').insertOne(user);
+				const token = jwt.sign({ ...user, id: data.insertedId }, secret, {
+					expiresIn: '1h',
+				});
 
-            } else {
-                res.json({status: 'NOT OK', description: 'Wrong password'});
-            }
-         }
-        }
-    );
+				res.json({
+					status: 'OK',
+					insertId: data.insertedId,
+					token: token,
+				});
+			} catch (e) {
+				res.json({ status: 'NOT OK' });
+			}
+		}
+	});
 
-    authRouter.route('/register').post(async function(req, res) {
+	authRouter.route('/restore').post(requireAuth, async function (req, res) {
+		const user = {
+			id: req.body.id,
+			username: req.body.username,
+			password: req.body.password,
+			name: req.body.name,
+			surname: req.body.surname,
+			age: req.body.age,
+			email: req.body.email,
+			role: req.body.role,
+			imageUrl: req.body.imageUrl,
+		};
 
-        console.log(req.body);
+		const token = jwt.sign({ ...user }, secret, {
+			expiresIn: '1h',
+		});
+		res.json({
+			status: 'OK',
+			user: user,
+			token: token,
+		});
+	});
 
-        const user = await checkUser(db, res, req.body.username);
-
-        if (user)  {
-            res.json({ status: 'NOT OK', description: 'Username already exists' }); 
-        }
-        else {
-
-            const hash = await bcrypt.hash(req.body.password, 10); 
-
-            const user = {
-                username : req.body.username,
-                password : hash,
-                name : req.body.name,
-                surname : req.body.surname,
-                age : req.body.age,
-                email : req.body.email,
-                role: req.body.role
-            };
-
-            try {
-                const data = await db.collection('users').insertOne(user);
-                const token = jwt.sign({...user, id: data.insertedId}, secret, {
-                    expiresIn: '1h'
-                });
-
-                res.json({
-                    status: 'OK',
-                    insertId: data.insertedId,
-                    token: token
-                });
-
-            } catch (e) {
-                res.json({ status: 'NOT OK' });
-            }
-        }
-    });
-
-    authRouter.route('/restore').post(requireAuth, async function(req,res){
-
-        const user = {
-            id: req.body.id,
-            username : req.body.username,
-            password : req.body.password,
-            name : req.body.name,
-            surname : req.body.surname,
-            age : req.body.age,
-            email : req.body.email,
-            role: req.body.role,
-            imageUrl: req.body.imageUrl
-
-        };
-
-        const token = jwt.sign({...user}, secret, {
-            expiresIn: '1h'
-        });
-        res.json({
-            status: 'OK',
-            user: user,
-            token: token
-        });
-         
-        }
-    );
-
-    return authRouter;4
-}
+	return authRouter;
+};
 
 const checkUser = async (db, res, username) => {
+	try {
+		const rows = await db
+			.collection('users')
+			.find({
+				username: username,
+			})
+			.toArray();
 
-    try {
-        const rows = await db.collection('users').find({
-            username: username
-        }).toArray();
+		console.log(rows);
 
-        console.log(rows);
-
-        return rows.length > 0 ? rows[0]: null;
-    }
-    catch (e) {
-        res.json({status: 'NOT OK'});
-    }
-}
+		return rows.length > 0 ? rows[0] : null;
+	} catch (e) {
+		res.json({ status: 'NOT OK' });
+	}
+};

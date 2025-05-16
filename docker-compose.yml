@@ -8,7 +8,8 @@ services:
     volumes:
       - ./client:/usr/src/app
       - /usr/src/app/node_modules
-    # Ensure other dependencies like 'backend' are correctly set up if needed for frontend dev
+    environment: # Add this section
+      - CHOKIDAR_USEPOLLING=true
     depends_on:
       - backend
     restart: unless-stopped
