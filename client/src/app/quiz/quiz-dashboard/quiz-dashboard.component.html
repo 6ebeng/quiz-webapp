@@ -49,7 +49,7 @@
                             <div class="quiz-main-details mt-5 mx-4" [ngClass]="{'quiz-main-details-popup': quiz.showDescription}">
                                 <p class="quiz-main-details-description py-1 px-2" *ngIf="quiz.showDescription; else kweez">{{quiz.description}}</p>
                                 <ng-template #kweez>
-                                    <p class="quiz-main-details-title text-center p-1" [ngStyle]="{'color': quiz.color}">Quiz App UKH</p>
+                                    <p class="quiz-main-details-title text-center p-1" [ngStyle]="{'color': quiz.color}"></p>
                                 </ng-template>
                             </div>
                         </section>
