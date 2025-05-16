@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./client # Path to your client folder
+      dockerfile: Dockerfile
+    ports:
+      - '80:80' # Map host port 80 to container port 80 (Nginx)
+        # Change to "4200:80" if port 80 is taken on your host
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./server # Path to your server folder
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080' # Map host port 8080 to container port 8080 (Node.js)
+    env_file: # Use this if you create a .env file in the server directory
+      - ./server/.env
+    # If not using env_file, define environment variables directly:
+    # environment:
+    #   - NODE_ENV=development
+    #   - PORT=8080
+    #   - DB_CONNECTION_STRING=mongodb://mongo:27017/quizdb
+    #   - SECRET=your_very_strong_jwt_secret_here_CHANGE_ME
+    #   - OPENAI_API_KEY=your_openai_api_key_here_OR_LEAVE_BLANK
+    volumes:
+      # Persist user uploads
+      - ./server/public/app/assets/uploads:/usr/src/app/public/app/assets/uploads
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db # Persist MongoDB data
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
