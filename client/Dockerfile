@@ -20,7 +20,7 @@ COPY . .
 # Build the Angular application for production.
 # The output will be in 'dist/kveez' (or 'dist/projekt' if you used that in angular.json).
 # Ensure --configuration production is used for an optimized build.
-RUN npm run build -- --configuration production
+RUN npm run build -- --configuration development
 
 # Stage 2: Serve the application with Nginx
 # Use a lightweight Nginx image
