@@ -3,7 +3,6 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/shared/auth.service';
 import { ValidatorService } from 'src/app/shared/validator.service';
-import { environment as devEnviroment } from 'src/environments/environment.development';
 import { environment } from '../../../environments/environment';
 import { User } from '../user.model';
 
@@ -23,7 +22,7 @@ export class ProfileComponent {
 	profileForm!: FormGroup;
 	edit: boolean = false;
 
-	imgDir: string = environment.production ? environment.API_URL + '/assets/uploads/' : devEnviroment.API_SERVER_URL + '/assets/uploads/';
+	imgDir: string = environment.API_URL + '/assets/uploads/';
 	defaultImg: string = environment.API_URL + '/assets/img/' + 'avatar.png';
 	maxSize: boolean = false;
 

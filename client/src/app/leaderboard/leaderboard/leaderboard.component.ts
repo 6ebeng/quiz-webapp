@@ -5,7 +5,6 @@ import { QuizService } from 'src/app/quiz/quiz.service';
 import { UserService } from 'src/app/shared/user.service';
 import { User } from 'src/app/users/user.model';
 import { environment } from 'src/environments/environment';
-import { environment as devEnviroment } from 'src/environments/environment.development';
 
 @Component({
 	selector: 'app-leaderboard',
@@ -20,7 +19,7 @@ export class LeaderboardComponent {
 	quizResults: QuizResults[] = [];
 	quizResultsSubscription: Subscription | null = null;
 
-	imgDir: string = environment.production ? environment.API_URL + '/assets/uploads/' : devEnviroment.API_SERVER_URL + '/assets/uploads/';
+	imgDir: string = environment.API_URL + '/assets/uploads/';
 	defaultImg: string = environment.API_URL + '/assets/img/' + 'avatar.png';
 
 	sortCol: string = '';
