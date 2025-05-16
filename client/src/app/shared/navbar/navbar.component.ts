@@ -1,63 +1,58 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { Subscription } from 'rxjs';
-import { User } from 'src/app/users/user.model';
-import { UserRole} from 'src/app/users/user-role.model';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { UserRole } from 'src/app/users/user-role.model';
+import { User } from 'src/app/users/user.model';
 import { environment } from 'src/environments/environment';
+import { environment as devEnviroment } from 'src/environments/environment.development';
+import { AuthService } from '../auth.service';
 
 @Component({
-    selector: 'app-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.css'],
-    standalone: false
+	selector: 'app-navbar',
+	templateUrl: './navbar.component.html',
+	styleUrls: ['./navbar.component.css'],
+	standalone: false,
 })
 export class NavbarComponent {
+	userRole = UserRole;
 
-  userRole = UserRole;
+	authenticated: boolean = false;
+	authSubscription: Subscription | null = null;
 
-  authenticated : boolean = false;
-  authSubscription : Subscription | null = null;
+	user: User = new User();
+	userSubscription: Subscription | null = null;
 
-  user: User = new User();
-  userSubscription : Subscription | null = null;
+	imgDir: string = environment.production ? environment.API_URL + '/assets/uploads/' : devEnviroment.API_SERVER_URL + '/assets/uploads/';
+	defaultImg: string = environment.API_URL + '/assets/img/' + 'avatar.png';
 
-  imgDir : string = environment.API_URL + '/assets/uploads/';
-  defaultImg : string = environment.API_URL + '/assets/img/' + 'avatar.png';
-  
-  constructor(private authService: AuthService, private router: Router) {}
+	constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit(): void {
+	ngOnInit(): void {
+		this.authSubscription = this.authService.authStatus.subscribe((authenticated) => {
+			this.authenticated = authenticated;
+		});
 
-    this.authSubscription = this.authService.authStatus.subscribe(authenticated => {
-      this.authenticated = authenticated;
-    });
+		this.userSubscription = this.authService.getUser().subscribe((user) => {
+			this.user = user;
+		});
+	}
 
-    this.userSubscription = this.authService.getUser().subscribe(user => {
-      this.user = user;
-    });
- }
+	isActive() {
+		const regex = /\/user\b/;
+		return regex.test(this.router.url);
+	}
 
-  isActive() {
+	logout() {
+		this.authService.logoutUser();
+	}
 
-    const regex = /\/user\b/;
-    return  regex.test(this.router.url);
-    
-  }
+	ngOnDestroy() {
+		if (this.authSubscription) {
+			this.authSubscription.unsubscribe();
+		}
 
- logout(){
-   this.authService.logoutUser();
- }
-
- ngOnDestroy(){
-
-  if (this.authSubscription) {
-    this.authSubscription.unsubscribe();
-  }
-
-  if (this.userSubscription) {
-    this.userSubscription.unsubscribe();
-  }
- }
-
+		if (this.userSubscription) {
+			this.userSubscription.unsubscribe();
+		}
+	}
 }
