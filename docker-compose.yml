@@ -27,7 +27,10 @@ services:
       - ./server/public/app/assets/uploads:/usr/src/app/public/app/assets/uploads
       - ./server:/usr/src/app
       - /usr/src/app/node_modules
-    command: npm run dev
+    entrypoint: /usr/src/app/entrypoint.sh # Use the entrypoint script
+    # The command is now handled by the entrypoint.sh
+    # If your Dockerfile for the backend had an ENTRYPOINT or CMD,
+    # this entrypoint in docker-compose.yml will override it.
     depends_on:
       - mongo
     restart: unless-stopped
